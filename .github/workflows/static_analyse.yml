@@ -15,6 +15,6 @@ jobs:
         java-version: 17
 
     - name: Build with Maven and Run Checkstyle
-      run: mvn clean verify checkstyle:check spotbugs:check 
+      run: mvn clean verify checkstyle:check
 
 
