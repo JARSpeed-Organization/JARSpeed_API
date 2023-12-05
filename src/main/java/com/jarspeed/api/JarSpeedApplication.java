@@ -13,7 +13,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * It serves as the entry point for the application.
  * </p>
  */
-
 @SpringBootApplication
 public class JarSpeedApplication {
 
