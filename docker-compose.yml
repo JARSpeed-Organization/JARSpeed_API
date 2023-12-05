@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/jarspeed
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_MONGODB_URI=mongodb://mongodb/jarspeed
+    depends_on:
+      - mysql-db
+      - mongodb
+
+  mysql-db:
+    image: mysql:8.0.3x
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: jarspeed
+    ports:
+      - "3306:3306"
+
+  mongodb:
+    image: mongo:6.0.3
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - "27017:27017"

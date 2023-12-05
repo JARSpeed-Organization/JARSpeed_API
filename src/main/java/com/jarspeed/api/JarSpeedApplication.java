@@ -4,31 +4,31 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Classe principale de l'application Spring Boot pour le système de
- * de parcours sportifs.
+ * Main class of the Spring Boot application for the
+ * system.
  * <p>
- * Cette classe lance l'application en utilisant Spring Boot, ce qui
- * configure automatiquement l'application basée sur les dépendances
- * ajoutées et les propriétés définies.
- * Elle sert de point d'entrée pour l'application.
+ * This class launches the application using Spring Boot, which
+ * automatically configures the application based on the dependencies
+ * dependencies and defined properties.
+ * It serves as the entry point for the application.
  * </p>
  */
-@SuppressWarnings("checkstyle:FinalClass")
+
 @SpringBootApplication
 public class JarSpeedApplication {
 
     /**
-     * Constructeur privé pour empêcher l'instanciation.
+     * Private constructor to prevent instantiation.
      */
     private JarSpeedApplication() {
-        // Constructeur privé pour empêcher l'instanciation
+
     }
 
     /**
-     * Point d'entrée principal de l'application.
+     * Application's main entry point.
      *
-     * @param args Arguments de la ligne de commande passés au démarrage
-     * de l'application.
+     * @param args Command line arguments passed at application startup.
+     * of the application.
      */
     public static void main(final String[] args) {
         SpringApplication.run(JarSpeedApplication.class, args);

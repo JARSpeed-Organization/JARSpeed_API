@@ -1,10 +1,10 @@
-package com.jarspeed.api.service;
+package com.jarspeed.api.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ParcoursServiceTest {
+class CourseControllerTest {
 
     @BeforeEach
     void setUp() {
