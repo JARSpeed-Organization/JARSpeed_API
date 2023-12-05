@@ -26,18 +26,4 @@ public class UserService {
      */
     private UserRepository userRepository;
 
-    /**
-     * Récupère la liste de tous les points d'intérêts.
-     * <p>
-     * Cette méthode appelle le repository pour récupérer tous les utilisateurs
-     * stockés dans la base de données.
-     * </p>
-     *
-     * @return une liste de tous les utilisateurs.
-     */
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    // Autres méthodes métier
 }

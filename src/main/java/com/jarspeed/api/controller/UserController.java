@@ -28,21 +28,5 @@ public class UserController {
      */
     @Autowired
     private UserService userService;
-
-    /**
-     * Récupère et renvoie une liste de tous les utilisateurs.
-     *
-     * Cette méthode gère les requêtes GET pour obtenir une liste de tous les
-     * utilisateurs.
-     * Elle utilise le UserService pour interroger la base de données et renvoie
-     * la liste des utilisateurs.
-     *
-     * @return La liste des utilisateurs disponibles dans la base de données.
-     */
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userService.findAll();
-    }
-
     // Autres points de terminaison
 }

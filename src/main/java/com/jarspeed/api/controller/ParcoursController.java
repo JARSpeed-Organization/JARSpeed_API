@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/parcours")
 public class ParcoursController {
-// Injection de dépendance pour le service Parcours
+    // Injection de dépendance pour le service Parcours
     /**
      * Service pour gérer les opérations liées aux parcours.
      * Le framework Spring injecte automatiquement une instance de
