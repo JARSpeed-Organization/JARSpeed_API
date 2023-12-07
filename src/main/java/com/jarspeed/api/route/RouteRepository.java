@@ -1,4 +1,4 @@
-package com.jarspeed.api.course;
+package com.jarspeed.api.route;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * custom query methods.
  * </p>
  */
-public interface CourseRepository extends JpaRepository<Course, Long> {
+public interface RouteRepository extends JpaRepository<Route, Long> {
     // Méthodes personnalisées si nécessaire
 }

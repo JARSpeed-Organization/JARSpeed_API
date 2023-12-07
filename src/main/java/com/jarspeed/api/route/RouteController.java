@@ -1,4 +1,4 @@
-package com.jarspeed.api.course;
+package com.jarspeed.api.route;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/parcours")
-public class CourseController {
+public class RouteController {
     // Dependency injection for the Parcours service
     /**
      * Service to manage route operations.
@@ -24,7 +24,7 @@ public class CourseController {
      * ParcoursService.
      */
     @Autowired
-    private CourseService courseService;
+    private RouteService courseService;
 
     /**
      * Retrieves and returns a list of all routes.
@@ -36,7 +36,7 @@ public class CourseController {
      * @return The list of routes available in the database.
      */
     @GetMapping
-    public List<Course> getAllParcours() {
+    public List<Route> getAllParcours() {
         return courseService.findAll();
     }
 }

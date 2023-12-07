@@ -6,4 +6,4 @@
  * data management, and presentation of courses in the application.
  * </p>
  */
-package com.jarspeed.api.course;
+package com.jarspeed.api.route;

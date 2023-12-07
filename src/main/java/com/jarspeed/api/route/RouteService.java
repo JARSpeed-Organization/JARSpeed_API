@@ -1,4 +1,4 @@
-package com.jarspeed.api.course;
+package com.jarspeed.api.route;
 
 import org.springframework.stereotype.Service;
 
@@ -12,18 +12,18 @@ import java.util.List;
  * </p>
  */
 @Service
-public class CourseService {
+public class RouteService {
 
     /**
      * Reference to the repository of
-     * {@link CourseRepository}
+     * {@link RouteRepository}
      * for accessing and manipulating course data.
      * <p>
      * This repository is used to perform CRUD operations on the
      * courses in the database.
      * </p>
      */
-    private CourseRepository courseRepository;
+    private RouteRepository courseRepository;
 
     /**
      * Retrieves the list of all courses.
@@ -34,7 +34,7 @@ public class CourseService {
      *
      * @return a list of all courses.
      */
-    public List<Course> findAll() {
+    public List<Route> findAll() {
         return courseRepository.findAll();
     }
 

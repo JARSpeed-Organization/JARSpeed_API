@@ -1,4 +1,4 @@
-package com.jarspeed.api.course;
+package com.jarspeed.api.route;
 
 /**
  * Entity representing a sports course in the system.
@@ -9,7 +9,7 @@ package com.jarspeed.api.course;
  * </p>
  */
 //@Entity
-public class Course {
+public class Route {
 
     /**
      * id of the course.
