@@ -5,14 +5,14 @@ package com.jarspeed.api.route;
  * <p>
  * This class is a JPA entity that defines the structure of the
  * table in the database. It includes information about the
- * course such as its distance, duration, and the path traveled.
+ * routes such as its distance, duration, and the path traveled.
  * </p>
  */
 //@Entity
 public class Route {
 
     /**
-     * id of the course.
+     * id of the route.
      */
     private Long id;
     // other attributes, getters and setters

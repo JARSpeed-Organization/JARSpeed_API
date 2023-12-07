@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Service for sports course management.
+ * Service for sports route management.
  * <p>
  * This service contains the business logic linked to courses and interacts
- * with the ParcoursRepository.
+ * with the RouteRepository.
  * </p>
  */
 @Service
@@ -20,22 +20,22 @@ public class RouteService {
      * for accessing and manipulating course data.
      * <p>
      * This repository is used to perform CRUD operations on the
-     * courses in the database.
+     * routes in the database.
      * </p>
      */
-    private RouteRepository courseRepository;
+    private RouteRepository routeRepository;
 
     /**
-     * Retrieves the list of all courses.
+     * Retrieves the list of all routes.
      * <p>
-     * This method calls the repository to retrieve all courses
+     * This method calls the repository to retrieve all routes
      * stored in the database.
      * </p>
      *
-     * @return a list of all courses.
+     * @return a list of all routes.
      */
     public List<Route> findAll() {
-        return courseRepository.findAll();
+        return routeRepository.findAll();
     }
 
 }
