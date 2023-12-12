@@ -32,11 +32,12 @@
         </dependency>
 
         <!-- Pilote MySQL -->
+      <!--
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-
+-->
         <!-- Spring Boot Data MongoDB -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
