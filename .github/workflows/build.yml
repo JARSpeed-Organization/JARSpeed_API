@@ -3,9 +3,7 @@ name: Build
 on:
   push:
     branches:
-      - master
-
-
+      - sonarcloud
 jobs:
   build:
     name: Build
