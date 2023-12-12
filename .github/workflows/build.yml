@@ -1,10 +1,8 @@
 name: SonarCloud
 on:
-  workflow_dispatch:
-    inputs:
-      name:
-        description: "Who to greet"
-        default: "World"
+  push:
+    branches:
+      - sonarcloud
 jobs:
   build:
     name: Build and analyze
