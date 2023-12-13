@@ -36,7 +36,7 @@ jobs:
 
       - name: Generate SpotBugs Report
         run: mvn com.github.spotbugs:spotbugs-maven-plugin:spotbugs
-      - run: ls /home/runner/work/JARSpeed_API/JARSpeed_API/target
+      - run: cat /home/runner/work/JARSpeed_API/JARSpeed_API/target/checkstyle-result.xml
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
