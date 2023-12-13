@@ -74,35 +74,28 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <!-- Autres plugins nécessaires -->
-        </plugins>
-    </build>
-
-    <reporting>
-        <plugins>
+          
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.3.1</version>
                 <configuration>
-                  <encoding>UTF-8</encoding>
-                  <consoleOutput>true</consoleOutput>
-                  <failsOnError>false</failsOnError>
-                  <failOnViolation>false</failOnViolation>
-                  <linkXRef>false</linkXRef>
+                    <encoding>UTF-8</encoding>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>false</failsOnError>
+                    <failOnViolation>false</failOnViolation>
+                    <linkXRef>false</linkXRef>
                 </configuration>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>checkstyle</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-            <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.7.3.2</version>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
-    </reporting>
+    </build>
 </project>
