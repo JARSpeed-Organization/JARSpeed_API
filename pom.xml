@@ -32,10 +32,10 @@
         </dependency>
 
         <!-- Pilote MySQL -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>mysql</groupId>-->
+<!--            <artifactId>mysql-connector-java</artifactId>-->
+<!--        </dependency>-->
 
         <!-- Spring Boot Data MongoDB -->
         <dependency>
@@ -74,7 +74,13 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Autres dépendances nécessaires pour votre projet -->
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-resource-server -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+            <version>3.1.4</version>
+        </dependency>
+
     </dependencies>
 
     <build>
