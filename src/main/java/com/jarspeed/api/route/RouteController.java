@@ -36,7 +36,7 @@ public class RouteController {
      * @return The list of routes available in the database.
      */
     @GetMapping
-    public List<Route> getAllRoute() {
-        return routeService.findAll();
+    public String getAllRoute() {
+        return "TEST";
     }
 }

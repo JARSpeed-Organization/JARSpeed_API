@@ -14,14 +14,14 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * It serves as the entry point for the application.
  * </p>
  */
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 public class JarSpeedApplication {
 
     /**
-     * Private constructor to prevent instantiation.
+     * Default constructor.
      */
     public JarSpeedApplication() {
-
+        // Default constructor
     }
 
     /**
