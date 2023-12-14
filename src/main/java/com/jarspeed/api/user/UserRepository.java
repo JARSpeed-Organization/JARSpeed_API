@@ -1,7 +1,7 @@
 package com.jarspeed.api.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
+import org.springframework.stereotype.Repository;
 /**
  * Repository interface for the User entity.
  * <p>
@@ -11,6 +11,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * query methods.
  * </p>
  */
-public interface UserRepository extends JpaRepository<User, Long> {
-    // Customized methods if required
+
+@Repository
+public interface UserRepository extends JpaRepository<User, String> {
+    // Ici, vous pouvez ajouter des méthodes personnalisées si nécessaire
+    // Par exemple, trouver des utilisateurs par nom, âge, etc.
 }

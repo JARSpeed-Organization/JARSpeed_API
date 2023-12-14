@@ -1,6 +1,10 @@
 package com.jarspeed.api.user;
 
+import com.jarspeed.api.route.Route;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Service for user management.
@@ -9,18 +13,14 @@ import org.springframework.stereotype.Service;
  * with the UserRepository.
  * </p>
  */
+
 @Service
 public class UserService {
-    /**
-     * Reference to the repository of
-     * {@link UserRepository}
-     * for accessing and manipulating user data.
-     * <p>
-     * This repository is used to perform CRUD operations on * users in the
-     * database.
-     * users in the database.
-     * </p>
-     */
     private UserRepository userRepository;
 
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+    // Autres méthodes métier si nécessaire
 }
+

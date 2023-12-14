@@ -4,13 +4,13 @@ services:
     image: mysql:8.0.3
     environment:
       MYSQL_DATABASE: 'jarspeed'
-      MYSQL_USER: 'root'
+      MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'root'
       MYSQL_ROOT_PASSWORD: 'root'
     ports:
       - "3306:3306"
     volumes:
-      - ./scripts/create.sql
+      - ./scripts:/docker-entrypoint-initdb.d
       - mysql-data:/var/lib/mysql
 
   mongo-db:
@@ -28,7 +28,7 @@ services:
     environment:
       MYSQL_HOST: mysql-db
       MYSQL_DB: 'jarspeed'
-      MYSQL_USER: 'root'
+      MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'root'
       MONGO_HOST: mongo-db
       MONGO_DB: 'nom_db_mongo'
