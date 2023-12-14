@@ -4,19 +4,20 @@ services:
     image: mysql:8.0.3
     environment:
       MYSQL_DATABASE: 'jarspeed'
-      MYSQL_USER: 'clientmysqljarspeed'
-      MYSQL_PASSWORD: 'password'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'root'
       MYSQL_ROOT_PASSWORD: 'root'
     ports:
       - "3306:3306"
     volumes:
+      - ./scripts/create.sql
       - mysql-data:/var/lib/mysql
 
   mongo-db:
     image: mongo:6.0.3
     environment:
       MONGO_INITDB_ROOT_USERNAME: 'root'
-      MONGO_INITDB_ROOT_PASSWORD: 'password'
+      MONGO_INITDB_ROOT_PASSWORD: 'root'
     ports:
       - "27017:27017"
     volumes:
@@ -27,12 +28,12 @@ services:
     environment:
       MYSQL_HOST: mysql-db
       MYSQL_DB: 'jarspeed'
-      MYSQL_USER: 'clientmysqljarspeed'
-      MYSQL_PASSWORD: 'password'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'root'
       MONGO_HOST: mongo-db
       MONGO_DB: 'nom_db_mongo'
-      MONGO_USER: 'mongouser'
-      MONGO_PASSWORD: 'mongopassword'
+      MONGO_USER: 'root'
+      MONGO_PASSWORD: 'root'
     ports:
       - "8080:8080"
     depends_on:

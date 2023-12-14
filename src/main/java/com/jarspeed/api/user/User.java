@@ -1,8 +1,7 @@
 package com.jarspeed.api.user;
 
 /**
- * Entity representing a user in the system for tracking
- * tracking system.
+ * Entity representing a user in the system for tracking system.
  * <p>
  * This class is a JPA entity that defines the structure of the * user table
  * in the database.
