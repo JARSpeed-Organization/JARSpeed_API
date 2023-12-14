@@ -1,43 +1,44 @@
-version: '3.1'
-
+version: '3.8'
 services:
-  db:
-    image: mysql:8.0.3  # Remplacé par MySQL
-    restart: always
+  mysql-db:
+    image: mysql:8.0.3
     environment:
-      MYSQL_ROOT_PASSWORD: root  # Optionnel, pour créer une base de données par défaut
+      MYSQL_DATABASE: 'jarspeed'
+      MYSQL_USER: 'clientmysqljarspeed'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'root'
     ports:
       - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    restart: always
-    ports:
-      - "8080:80"
+  mongo-db:
+    image: mongo:6.0.3
     environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
+      MONGO_INITDB_ROOT_USERNAME: 'root'
+      MONGO_INITDB_ROOT_PASSWORD: 'password'
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
 
-  mongodb:
-    image: mongo:latest
-    restart: always
+  spring-boot-api:
+    build: ./
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+      MYSQL_HOST: mysql-db
+      MYSQL_DB: 'jarspeed'
+      MYSQL_USER: 'clientmysqljarspeed'
+      MYSQL_PASSWORD: 'password'
+      MONGO_HOST: mongo-db
+      MONGO_DB: 'nom_db_mongo'
+      MONGO_USER: 'mongouser'
+      MONGO_PASSWORD: 'mongopassword'
     ports:
-      - "27018:27017"
-
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - "8081:8081"
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: root
-      ME_CONFIG_MONGODB_SERVER: mongodb
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+      - mongo-db
 
 volumes:
-  db_data:
-  mongo_data:
+  mysql-data:
+  mongo-data:
