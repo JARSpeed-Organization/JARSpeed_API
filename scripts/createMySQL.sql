@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db:3306
--- Généré le : mer. 13 déc. 2023 à 15:03
+-- Généré le : jeu. 14 déc. 2023 à 14:40
 -- Version du serveur : 10.3.39-MariaDB-1:10.3.39+maria~ubu2004
 -- Version de PHP : 8.2.8
 
@@ -20,6 +20,19 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `jarspeed`
 --
+CREATE DATABASE IF NOT EXISTS `jarspeed` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `jarspeed`;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `SEX`
+--
+
+CREATE TABLE `SEX` (
+  `ID` int(11) NOT NULL,
+  `LABEL` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -42,11 +55,27 @@ CREATE TABLE `USER` (
 --
 
 --
+-- Index pour la table `SEX`
+--
+ALTER TABLE `SEX`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Index pour la table `USER`
 --
 ALTER TABLE `USER`
   ADD PRIMARY KEY (`EMAIL`),
   ADD KEY `SEX` (`SEX`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `SEX`
+--
+ALTER TABLE `SEX`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Contraintes pour les tables déchargées
