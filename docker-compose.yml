@@ -2,10 +2,10 @@ version: '3.1'
 
 services:
   db:
-    image: mariadb:10.3
+    image: mysql:8.0.3  # Remplacé par MySQL
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root  # Optionnel, pour créer une base de données par défaut
     ports:
       - "3306:3306"
 
