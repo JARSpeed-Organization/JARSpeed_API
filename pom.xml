@@ -15,7 +15,8 @@
     <description>JARSpeed</description>
     <properties>
         <java.version>17</java.version>
-        <sonar.host.url>http://localhost:9000</sonar.host.url>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.organization></sonar.organization>
     </properties>
 
     <dependencies>
@@ -90,30 +91,28 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <!-- Autres plugins nécessaires -->
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-checkstyle-plugin</artifactId>
+              <configuration>
+                <encoding>UTF-8</encoding>
+                <consoleOutput>true</consoleOutput>
+                <failsOnError>false</failsOnError>
+                <failsOnViolation>false</failsOnViolation>
+                <linkXRef>false</linkXRef>
+              </configuration>
+              <executions>
+                <execution>
+                  <id>validate</id>
+                  <phase>validate</phase>
+                  <goals>
+                    <goal>check</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
         </plugins>
     </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.0</version>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>checkstyle</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-            <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.7.3.2</version>
-            </plugin>
-        </plugins>
-    </reporting>
 </project>
 
 
