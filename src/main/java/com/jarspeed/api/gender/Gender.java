@@ -8,8 +8,11 @@ public class Gender {
 
     public static final String TABLE_NAME = "gender";
 
+    public static final String COLUMN_NAME_ID = "ID";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = COLUMN_NAME_ID)
     private Integer id;
 
     private String label;
