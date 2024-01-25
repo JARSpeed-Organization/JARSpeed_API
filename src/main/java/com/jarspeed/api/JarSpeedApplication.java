@@ -2,7 +2,6 @@ package com.jarspeed.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 /**
  * Main class of the Spring Boot application for the
@@ -14,15 +13,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * It serves as the entry point for the application.
  * </p>
  */
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
+@SpringBootApplication
 public class JarSpeedApplication {
-
-    /**
-     * Default constructor.
-     */
-    public JarSpeedApplication() {
-        // Default constructor
-    }
 
     /**
      * Application's main entry point.
