@@ -1,43 +1,20 @@
-version: '3.1'
-
+version: '3.8'
 services:
   db:
-    image: mysql:8.0.3  # Remplacé par MySQL
+    image: mysql:8.0
+    cap_add:
+      - SYS_NICE
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root  # Optionnel, pour créer une base de données par défaut
+      MYSQL_DATABASE: 'jarspeed'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'user'
+      MYSQL_ROOT_PASSWORD: 'root'
     ports:
-      - "3306:3306"
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    restart: always
-    ports:
-      - "8080:80"
-    environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
-
-  mongodb:
-    image: mongo:latest
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
-    ports:
-      - "27018:27017"
-
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - "8081:8081"
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: root
-      ME_CONFIG_MONGODB_SERVER: mongodb
-
+      - '3306:3306'
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
+      - db:/var/lib/mysql
 volumes:
-  db_data:
-  mongo_data:
+  db:
+    driver: local

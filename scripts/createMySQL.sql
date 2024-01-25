@@ -26,10 +26,10 @@ USE `jarspeed`;
 -- --------------------------------------------------------
 
 --
--- Structure de la table `SEX`
+-- Structure de la table `gender`
 --
 
-CREATE TABLE `SEX` (
+CREATE TABLE `gender` (
   `ID` int(11) NOT NULL,
   `LABEL` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -45,7 +45,7 @@ CREATE TABLE `USER` (
   `FIRSTNAME` varchar(255) NOT NULL,
   `EMAIL` varchar(255) NOT NULL,
   `AGE` int(11) NOT NULL,
-  `SEX` int(11) NOT NULL,
+  `gender` int(11) NOT NULL,
   `WEIGHT` double NOT NULL,
   `PASSWORD` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -55,9 +55,9 @@ CREATE TABLE `USER` (
 --
 
 --
--- Index pour la table `SEX`
+-- Index pour la table `gender`
 --
-ALTER TABLE `SEX`
+ALTER TABLE `gender`
   ADD PRIMARY KEY (`ID`);
 
 --
@@ -65,16 +65,16 @@ ALTER TABLE `SEX`
 --
 ALTER TABLE `USER`
   ADD PRIMARY KEY (`EMAIL`),
-  ADD KEY `SEX` (`SEX`);
+  ADD KEY `gender` (`gender`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
--- AUTO_INCREMENT pour la table `SEX`
+-- AUTO_INCREMENT pour la table `gender`
 --
-ALTER TABLE `SEX`
+ALTER TABLE `gender`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -85,7 +85,7 @@ ALTER TABLE `SEX`
 -- Contraintes pour la table `USER`
 --
 ALTER TABLE `USER`
-  ADD CONSTRAINT `USER_ibfk_1` FOREIGN KEY (`SEX`) REFERENCES `SEX` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `USER_ibfk_1` FOREIGN KEY (`gender`) REFERENCES `gender` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
