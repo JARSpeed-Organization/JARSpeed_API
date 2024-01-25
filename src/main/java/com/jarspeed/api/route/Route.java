@@ -5,6 +5,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Represents a route with a start point, end point, path, points of interest, and additional information.
+ * This class is annotated as a MongoDB document.
+ */
 @Document
 public class Route {
     @Id
@@ -18,6 +22,7 @@ public class Route {
     private String description;
 
     // Getters and Setters
+
     public String getId() {
         return id;
     }
@@ -82,7 +87,9 @@ public class Route {
         this.description = description;
     }
 
-    // Coordinate inner class
+    /**
+     * Inner class representing geographical coordinates.
+     */
     public static class Coordinate {
         private double latitude;
         private double longitude;
@@ -104,7 +111,9 @@ public class Route {
         }
     }
 
-    // PointOfInterest inner class
+    /**
+     * Inner class representing a point of interest along a route.
+     */
     public static class PointOfInterest {
         private String name;
         private Coordinate coordinates;

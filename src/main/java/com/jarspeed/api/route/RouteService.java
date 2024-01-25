@@ -4,35 +4,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Optional;
-import java.util.List;
 
 /**
- * Service for sports route management.
- * <p>
- * This service contains the business logic linked to courses and interacts
- * with the RouteRepository.
- * </p>
+ * Service for managing routes.
+ * This service contains business logic related to routes and interacts with the RouteRepository.
  */
 @Service
 public class RouteService {
 
-    /**
-     * Reference to the repository of
-     * {@link RouteRepository}
-     * for accessing and manipulating course data.
-     * <p>
-     * This repository is used to perform CRUD operations on the
-     * routes in the database.
-     * </p>
-     */
-    private RouteRepository routeRepository;
+    @Autowired
+    private RouteRepository routeRepository; // Injects an instance of RouteRepository.
 
     /**
-     * Retrieves the list of all routes.
-     * <p>
-     * This method calls the repository to retrieve all routes
-     * stored in the database.
-     * </p>
+     * Retrieves all routes.
+     * This method calls the repository to fetch all routes stored in the database.
      *
      * @return a list of all routes.
      */
@@ -40,15 +25,37 @@ public class RouteService {
         return routeRepository.findAll();
     }
 
+    /**
+     * Retrieves a route by its ID.
+     * If the route is found, it is returned, otherwise, null is returned.
+     *
+     * @param id The ID of the route.
+     * @return the route if found, or null.
+     */
     public Route getRouteById(String id) {
         Optional<Route> route = routeRepository.findById(id);
         return route.orElse(null);
     }
 
+    /**
+     * Creates a new route.
+     * This method saves the provided route object in the database.
+     *
+     * @param route The route to be created.
+     * @return the created route.
+     */
     public Route createRoute(Route route) {
         return routeRepository.save(route);
     }
 
+    /**
+     * Updates an existing route.
+     * If the route exists, it is updated with the provided details and saved.
+     *
+     * @param id The ID of the route to be updated.
+     * @param routeDetails The new details for the route.
+     * @return the updated route, or null if the route doesn't exist.
+     */
     public Route updateRoute(String id, Route routeDetails) {
         Route route = routeRepository.findById(id).orElse(null);
         if (route != null) {
@@ -66,6 +73,12 @@ public class RouteService {
         return null;
     }
 
+    /**
+     * Deletes a route.
+     * This method removes the route with the specified ID from the database.
+     *
+     * @param id The ID of the route to be deleted.
+     */
     public void deleteRoute(String id) {
         routeRepository.deleteById(id);
     }
