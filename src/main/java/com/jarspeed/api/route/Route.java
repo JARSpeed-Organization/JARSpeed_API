@@ -9,7 +9,7 @@ import java.util.List;
  * Represents a route with a start point, end point, path, points of interest, and additional information.
  * This class is annotated as a MongoDB document.
  */
-@Document
+@Document("Routes")
 public class Route {
     @Id
     private String id;
