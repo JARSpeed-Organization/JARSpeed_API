@@ -1,43 +1,86 @@
 package com.jarspeed.api.gender;
 
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = Gender.TABLE_NAME)
 public class Gender {
 
+    /**
+     * Name of table gender in database (MySQL).
+     */
     public static final String TABLE_NAME = "gender";
 
-    public static final String COLUMN_NAME_ID = "ID";
+    /**
+     * Name of column id in table gender.
+     */
+    public static final String COLUMN_NAME_ID = "id";
 
+    /**
+     * Id.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = COLUMN_NAME_ID)
     private Integer id;
 
+    /**
+     * Label.
+     */
     private String label;
 
+    /**
+     * Default constructor.
+     */
     public Gender() {
+        // Empty constructor
     }
 
-    public Gender(Integer id, String label) {
-        this.id = id;
-        this.label = label;
+    /**
+     * Constructor with all attributs.
+     * @param pId Id of gender
+     * @param pLabel Label of gender
+     */
+    public Gender(final Integer pId, final String pLabel) {
+        this.id = pId;
+        this.label = pLabel;
     }
 
+    /**
+     * Gets the id.
+     * @return value of Id
+     */
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    /**
+     * Sets the id.
+     * @param pId New id
+     */
+    public void setId(final Integer pId) {
+        id = pId;
     }
 
+    /**
+     * Gets the label.
+     * @return value of label
+     */
     public String getLabel() {
         return label;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    /**
+     * Sets the label.
+     * @param pLabel new label
+     */
+    public void setLabel(final String pLabel) {
+        label = pLabel;
     }
 }
