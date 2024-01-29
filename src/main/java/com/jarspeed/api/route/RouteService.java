@@ -64,19 +64,19 @@ public class RouteService {
      */
     public Route updateRoute(final String id, final Route routeDetails) {
         Route route = routeRepository.findById(id).orElse(null);
-        if (route != null) {
-            // Update logic here
-            route.setDate(routeDetails.getDate());
-            route.setStartPoint(routeDetails.getStartPoint());
-            route.setEndPoint(routeDetails.getEndPoint());
-            route.setPath(routeDetails.getPath());
-            route.setPointsOfInterest(routeDetails.getPointsOfInterest());
-            route.setTitle(routeDetails.getTitle());
-            route.setDescription(routeDetails.getDescription());
-
-            return routeRepository.save(route);
+        if (route == null) {
+            throw new IllegalArgumentException("ID non trouvé");
         }
-        return null;
+        // Update logic here
+        route.setDate(routeDetails.getDate());
+        route.setStartPoint(routeDetails.getStartPoint());
+        route.setEndPoint(routeDetails.getEndPoint());
+        route.setPath(routeDetails.getPath());
+        route.setPointsOfInterest(routeDetails.getPointsOfInterest());
+        route.setTitle(routeDetails.getTitle());
+        route.setDescription(routeDetails.getDescription());
+
+        return routeRepository.save(route);
     }
 
     /**
