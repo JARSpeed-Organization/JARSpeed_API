@@ -83,6 +83,7 @@ public class User {
 
     /**
      * Constructor with all attributs.
+     * @param pId Id
      * @param pLastname Lastname
      * @param pFirstname Firstname
      * @param pEmail Email
@@ -91,9 +92,11 @@ public class User {
      * @param pWeight Weight
      * @param pPassword Password
      */
-    public User(final String pLastname, final String pFirstname,
-                final String pEmail, final Integer pAge, final Gender pGender,
+    public User(final Integer pId, final String pLastname,
+                final String pFirstname, final String pEmail,
+                final Integer pAge, final Gender pGender,
                 final Double pWeight, final String pPassword) {
+        this.id = pId;
         this.lastname = pLastname;
         this.firstname = pFirstname;
         this.email = pEmail;
