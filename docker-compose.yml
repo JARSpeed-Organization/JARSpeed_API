@@ -16,18 +16,20 @@ services:
       - ./scripts:/docker-entrypoint-initdb.d
       - db:/var/lib/mysql
 
-  mongo:
+  mongodb:
     image: mongo:latest
     ports:
       - "27017:27017"
     environment:
-      - MONGO_INITDB_DATABASE=courses
-      - MONGO_INITDB_ROOT_USERNAME=user
-      - MONGO_INITDB_ROOT_PASSWORD=password
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: mongopassword
     volumes:
-      - mongodata:/data/db
+      - mongodb_data:/data/db
 
 volumes:
   db:
     driver: local
-  mongodata:
+  mongodb_data:
+
+networks:
+  jarspeed-network:
