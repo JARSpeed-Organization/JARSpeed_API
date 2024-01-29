@@ -34,6 +34,7 @@ public class User {
      * Id.
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
