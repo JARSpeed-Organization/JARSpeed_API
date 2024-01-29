@@ -30,24 +30,25 @@ USE `jarspeed`;
 --
 
 CREATE TABLE `gender` (
-  `ID` int(11) NOT NULL,
-  `LABEL` varchar(255) NOT NULL
+  `id` int(11) NOT NULL,
+  `label` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `USER`
+-- Structure de la table `user`
 --
 
-CREATE TABLE `USER` (
-  `LASTNAME` varchar(255) NOT NULL,
-  `FIRSTNAME` varchar(255) NOT NULL,
-  `EMAIL` varchar(255) NOT NULL,
-  `AGE` int(11) NOT NULL,
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `lastname` varchar(255) NOT NULL,
+  `firstname` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `age` int(11) NOT NULL,
   `gender` int(11) NOT NULL,
-  `WEIGHT` double NOT NULL,
-  `PASSWORD` varchar(255) NOT NULL
+  `weight` double NOT NULL,
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -58,13 +59,13 @@ CREATE TABLE `USER` (
 -- Index pour la table `gender`
 --
 ALTER TABLE `gender`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `USER`
+-- Index pour la table `user`
 --
-ALTER TABLE `USER`
-  ADD PRIMARY KEY (`EMAIL`),
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `gender` (`gender`);
 
 --
@@ -75,19 +76,33 @@ ALTER TABLE `USER`
 -- AUTO_INCREMENT pour la table `gender`
 --
 ALTER TABLE `gender`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Contraintes pour les tables déchargées
 --
 
 --
--- Contraintes pour la table `USER`
+-- Contraintes pour la table `user`
 --
-ALTER TABLE `USER`
-  ADD CONSTRAINT `USER_ibfk_1` FOREIGN KEY (`gender`) REFERENCES `gender` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `user`
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`gender`) REFERENCES `gender` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
+
+--
+-- AUTO_INCREMENT pour la table `gender`
+--
+ALTER TABLE `user`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+INSERT INTO gender (label) VALUES ('Femme');
+INSERT INTO gender (label) VALUES ('Homme');
+
+INSERT INTO user (lastname, firstname, email, age, gender, weight, password) VALUES ('Launay', 'Simon', 'simon.launay@iut-rodez.fr', 22, 2, 88, 'password');
+INSERT INTO user (lastname, firstname, email, age, gender, weight, password) VALUES ('Bois', 'Axel', 'axel.bois@iut-rodez.fr', 21, 2, 72, 'password');
+INSERT INTO user (lastname, firstname, email, age, gender, weight, password) VALUES ('Blanchard', 'Jules', 'jules.blanchard@iut-rodez.fr', 19, 2, 60, 'password');
+INSERT INTO user (lastname, firstname, email, age, gender, weight, password) VALUES ('Courbaize', 'Romain', 'romain.courbaize@iut-rodez.fr', 21, 2, 80, 'password');

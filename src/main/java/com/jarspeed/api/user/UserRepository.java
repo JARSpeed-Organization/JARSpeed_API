@@ -11,6 +11,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * query methods.
  * </p>
  */
-public interface UserRepository extends JpaRepository<User, Long> {
-    // Customized methods if required
+public interface UserRepository extends JpaRepository<User, Integer> {
+
+    /**
+     * Find user by id.
+     * @param pId Id of user
+     * @return The user
+     */
+    public User findUserById(Integer pId);
+
+    User findUserByEmailAndPassword(String email, String password);
+
 }
