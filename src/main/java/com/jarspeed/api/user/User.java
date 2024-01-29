@@ -2,6 +2,8 @@ package com.jarspeed.api.user;
 
 import com.jarspeed.api.gender.Gender;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -21,62 +23,62 @@ import jakarta.persistence.Table;
 public class User {
 
     /**
-     * Name of table user in database (MySQL).
+     * The constant TABLE_NAME.
      */
     public static final String TABLE_NAME = "user";
 
     /**
-     * Name of column gender id in table user.
+     * The constant COLUMN_NAME_GENDER.
      */
     public static final String COLUMN_NAME_GENDER = "gender";
 
     /**
-     * Id.
+     * The Id.
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
-     * Email.
+     * The Email.
      */
     private String email;
 
     /**
-     * Lastname.
+     * The Lastname.
      */
     private String lastname;
 
     /**
-     * Firstname.
+     * The Firstname.
      */
     private String firstname;
 
     /**
-     * Age.
+     * The Age.
      */
     private Integer age;
 
     /**
-     * Gender.
+     * The Gender.
      */
     @ManyToOne
-    @JoinColumn(name = COLUMN_NAME_GENDER,
-            referencedColumnName = Gender.COLUMN_NAME_ID)
+    @JoinColumn(name = COLUMN_NAME_GENDER, referencedColumnName
+            = Gender.COLUMN_NAME_ID)
     private Gender gender;
 
     /**
-     * Weight.
+     * The Weight.
      */
     private Double weight;
 
     /**
-     * Password.
+     * The Password.
      */
     private String password;
 
     /**
-     * Default constructor.
+     * Instantiates a new User.
      */
     public User() {
         // Empty constructor
@@ -109,146 +111,146 @@ public class User {
     }
 
     /**
-     * Gets the id.
+     * Gets id.
      *
-     * @return value of id
+     * @return the id
      */
     public Integer getId() {
         return id;
     }
 
     /**
-     * Sets the id.
+     * Sets id.
      *
-     * @param pId new id
+     * @param id the id
      */
-    public void setId(final Integer pId) {
-        id = pId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     /**
-     * Gets the email.
+     * Gets lastname.
      *
-     * @return value of email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Sets the email.
-     *
-     * @param pEmail new email
-     */
-    public void setEmail(final String pEmail) {
-        email = pEmail;
-    }
-
-    /**
-     * Gets the lastname.
-     *
-     * @return value of lastname
+     * @return the lastname
      */
     public String getLastname() {
         return lastname;
     }
 
     /**
-     * Sets the lastname.
+     * Sets lastname.
      *
-     * @param pLastname new lastname
+     * @param pLastname the p lastname
      */
-    public void setLastname(final String pLastname) {
-        lastname = pLastname;
+    public void setLastname(String pLastname) {
+        this.lastname = pLastname;
     }
 
     /**
-     * Gets the firstname.
+     * Gets firstname.
      *
-     * @return value of firstname
+     * @return the firstname
      */
     public String getFirstname() {
         return firstname;
     }
 
     /**
-     * Sets the firstname.
+     * Sets firstname.
      *
-     * @param pFirstname new firstname
+     * @param pFirstname the p firstname
      */
-    public void setFirstname(final String pFirstname) {
-        firstname = pFirstname;
+    public void setFirstname(String pFirstname) {
+        this.firstname = pFirstname;
     }
 
     /**
-     * Gets the age.
+     * Gets email.
      *
-     * @return value of age
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Sets email.
+     *
+     * @param email the email
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * Gets age.
+     *
+     * @return the age
      */
     public Integer getAge() {
         return age;
     }
 
     /**
-     * Sets the age.
+     * Sets age.
      *
-     * @param pAge new age
+     * @param age the age
      */
-    public void setAge(final Integer pAge) {
-        age = pAge;
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
     /**
-     * Gets the gender.
+     * Gets gender.
      *
-     * @return value of gender
+     * @return the gender
      */
     public Gender getGender() {
         return gender;
     }
 
     /**
-     * Sets the gender.
+     * Sets gender.
      *
-     * @param pGender new gender
+     * @param gender the gender
      */
-    public void setGender(final Gender pGender) {
-        gender = pGender;
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     /**
-     * Gets the weight.
+     * Gets weight.
      *
-     * @return value of weight
+     * @return the weight
      */
     public Double getWeight() {
         return weight;
     }
 
     /**
-     * Sets the weight.
+     * Sets weight.
      *
-     * @param pWeight new weight
+     * @param weight the weight
      */
-    public void setWeight(final Double pWeight) {
-        weight = pWeight;
+    public void setWeight(Double weight) {
+        this.weight = weight;
     }
 
     /**
-     * Gets the password.
+     * Gets password.
      *
-     * @return value of password
+     * @return the password
      */
     public String getPassword() {
         return password;
     }
 
     /**
-     * Sets the password.
+     * Sets password.
      *
-     * @param pPassword new password
+     * @param password the password
      */
-    public void setPassword(final String pPassword) {
-        password = pPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
