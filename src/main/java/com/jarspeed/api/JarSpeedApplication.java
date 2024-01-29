@@ -22,7 +22,7 @@ public class JarSpeedApplication {
      * Application's main entry point.
      *
      * @param args Command line arguments passed at application startup.
-     * of the application.
+     *            of the application.
      */
     public static void main(final String[] args) {
         SpringApplication.run(JarSpeedApplication.class, args);

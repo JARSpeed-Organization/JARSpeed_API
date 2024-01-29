@@ -1,15 +1,14 @@
 package com.jarspeed.api.user;
 
-import com.jarspeed.api.security.RefreshTokenService;
-import com.jarspeed.api.security.TokenService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * REST controller for user management.
@@ -23,116 +22,126 @@ import java.util.Map;
 @RequestMapping("/users")
 public class UserController {
 
+    // Dependency injection for the User service
+    /**
+     * Service to manage user-related operations.
+     * The Spring framework automatically injects a UserService instance.
+     */
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
-    private RefreshTokenService refreshTokenService;
-
-
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestParam String email, @RequestParam String password) {
-        User user = userRepository.findUserByEmailAndPassword(email, password);
-        if (user != null) {
-            String token = tokenService.generateToken(user.getId());
-            String refreshToken = refreshTokenService.generateRefreshToken(user.getId());
-            return ResponseEntity.ok(Map.of("token", token, "refreshToken", refreshToken));
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-        }
-    }
-
-    @PostMapping("/refreshToken")
-    public ResponseEntity<?> refreshToken(@RequestParam String refreshToken) {
-        if (refreshTokenService.validateRefreshToken(refreshToken)) {
-            Integer userId = refreshTokenService.getUserIdFromRefreshToken(refreshToken);
-            String newToken = tokenService.generateToken(userId);
-            return ResponseEntity.ok(Map.of("token", newToken));
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
-        }
-    }
-
+    /**
+     * Recovery all users.
+     *
+     * @return all users in table
+     */
     @GetMapping("/")
-    public ResponseEntity<?> getAll(HttpServletRequest request) {
-        String token = extractToken(request);
-        if (token == null || !tokenService.validateToken(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access");
-        }
-
-        List<User> users = userRepository.findAll();
-        return ResponseEntity.ok(users);
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
+
+    /**
+     * Find user by id.
+     *
+     * @param pId id for search
+     * @return user of search with criteria (user.id = pId)
+     */
     @GetMapping("/findById")
-    public ResponseEntity<?> findById(@RequestParam Integer pId,
-                               HttpServletRequest request) {
-        String token = extractToken(request);
-        if (token == null || !tokenService.validateToken(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access");
-        }
-
-        User user = userRepository.findUserById(pId);
-        if (user != null) {
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
+    public User findUserById(@RequestParam final Integer pId) {
+        return userRepository.findUserById(pId);
     }
 
+    /**
+     * Merge the new user information with the old.
+     * If an information is null or if the new information is equal to the old
+     * information, no changes are made to this information.
+     *
+     * @param pUser new user
+     * @return new user, after merge
+     */
     @PutMapping("/merge")
-    public ResponseEntity<?> merge(@RequestBody User pUser, HttpServletRequest request) {
-        String token = extractToken(request);
-        if (token == null || !tokenService.validateToken(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access");
+    public User merge(@RequestBody final User pUser) {
+        User user = userRepository.findUserById(pUser.getId());
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
         }
-
-        User existingUser = userRepository.findUserById(pUser.getId());
-        if (existingUser == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        if (pUser.getEmail() != null) {
+            if (user.getEmail() != null) {
+                // The new email is equals to the old
+                if (!pUser.getEmail().equals(user.getEmail())) {
+                    user.setEmail(pUser.getEmail());
+                }
+            } else {
+                // Email has never been initialised
+                user.setEmail(pUser.getEmail());
+            }
         }
-
-        // Mise à jour de l'utilisateur existant avec les informations fournies
-        updateUserInfo(existingUser, pUser);
-        User updatedUser = userRepository.save(existingUser);
-        return ResponseEntity.ok(updatedUser);
-    }
-
-    private void updateUserInfo(User existingUser, User newUser) {
-        if (newUser.getEmail() != null && !newUser.getEmail().isEmpty()) {
-            existingUser.setEmail(newUser.getEmail());
+        if (pUser.getLastname() != null) {
+            if (user.getLastname() != null) {
+                // The new lastname is equals to the old
+                if (!pUser.getLastname().equals(user.getLastname())) {
+                    user.setLastname(pUser.getLastname());
+                }
+            } else {
+                // Lastname has never been initialised
+                user.setLastname(pUser.getLastname());
+            }
         }
-        if (newUser.getLastname() != null && !newUser.getLastname().isEmpty()) {
-            existingUser.setLastname(newUser.getLastname());
+        if (pUser.getFirstname() != null) {
+            if (user.getFirstname() != null) {
+                // The new firstname is equals to the old
+                if (!pUser.getFirstname().equals(user.getFirstname())) {
+                    user.setFirstname(pUser.getFirstname());
+                }
+            } else {
+                // Firstname has never been initialised
+                user.setFirstname(pUser.getFirstname());
+            }
         }
-        if (newUser.getFirstname() != null && !newUser.getFirstname().isEmpty()) {
-            existingUser.setFirstname(newUser.getFirstname());
+        if (pUser.getAge() != null) {
+            if (user.getAge() != null) {
+                // The new age is equals to the old
+                if (!pUser.getAge().equals(user.getAge())) {
+                    user.setAge(pUser.getAge());
+                }
+            } else {
+                // Age has never been initialised
+                user.setAge(pUser.getAge());
+            }
         }
-        if (newUser.getAge() != null) {
-            existingUser.setAge(newUser.getAge());
+        if (pUser.getWeight() != null) {
+            if (user.getWeight() != null) {
+                // The new weight is equals to the old
+                if (!pUser.getWeight().equals(user.getWeight())) {
+                    user.setWeight(pUser.getWeight());
+                }
+            } else {
+                // Weight has never been initialised
+                user.setWeight(pUser.getWeight());
+            }
         }
-        if (newUser.getWeight() != null) {
-            existingUser.setWeight(newUser.getWeight());
+        if (pUser.getGender() != null) {
+            if (user.getGender() != null) {
+                // The new gender is equals to the old
+                if (!pUser.getGender().equals(user.getGender())) {
+                    user.setGender(pUser.getGender());
+                }
+            } else {
+                // Gender has never been initialised
+                user.setGender(pUser.getGender());
+            }
         }
-        if (newUser.getGender() != null) {
-            existingUser.setGender(newUser.getGender());
+        if (pUser.getPassword() != null) {
+            if (user.getPassword() != null) {
+                // The new password is equals to the old
+                if (!pUser.getPassword().equals(user.getPassword())) {
+                    user.setPassword(pUser.getPassword());
+                }
+            } else {
+                // Password has never been initialised
+                user.setPassword(pUser.getPassword());
+            }
         }
-        // Note : Soyez prudent avec la mise à jour des mots de passe. Si vous souhaitez le permettre,
-        // assurez-vous qu'ils sont correctement hachés avant de les stocker.
-        if (newUser.getPassword() != null && !newUser.getPassword().isEmpty()) {
-            // Ici, vous devriez hacher le mot de passe avant de le stocker
-            existingUser.setPassword(newUser.getPassword());
-        }
-    }
-
-    // Utilitaire pour extraire le token du header de la requête
-    private String extractToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
+        return userRepository.save(user);
     }
 }
