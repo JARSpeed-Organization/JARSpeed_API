@@ -27,6 +27,7 @@ public class GenderController {
 
     /**
      * Recover all gender in database.
+     *
      * @return All gender
      */
     @GetMapping("/")

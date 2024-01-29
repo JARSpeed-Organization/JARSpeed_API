@@ -32,6 +32,7 @@ public class UserController {
 
     /**
      * Recovery all users.
+     *
      * @return all users in table
      */
     @GetMapping("/")
@@ -41,6 +42,7 @@ public class UserController {
 
     /**
      * Find user by id.
+     *
      * @param pId id for search
      * @return user of search with criteria (user.id = pId)
      */
@@ -53,6 +55,7 @@ public class UserController {
      * Merge the new user information with the old.
      * If an information is null or if the new information is equal to the old
      * information, no changes are made to this information.
+     *
      * @param pUser new user
      * @return new user, after merge
      */

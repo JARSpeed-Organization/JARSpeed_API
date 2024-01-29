@@ -15,6 +15,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     /**
      * Find user by id.
+     *
      * @param pId Id of user
      * @return The user
      */

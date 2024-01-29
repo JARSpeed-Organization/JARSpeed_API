@@ -83,14 +83,15 @@ public class User {
 
     /**
      * Constructor with all attributs.
-     * @param pId Id
-     * @param pLastname Lastname
+     *
+     * @param pId        Id
+     * @param pLastname  Lastname
      * @param pFirstname Firstname
-     * @param pEmail Email
-     * @param pAge Age
-     * @param pGender Gender
-     * @param pWeight Weight
-     * @param pPassword Password
+     * @param pEmail     Email
+     * @param pAge       Age
+     * @param pGender    Gender
+     * @param pWeight    Weight
+     * @param pPassword  Password
      */
     public User(final Integer pId, final String pLastname,
                 final String pFirstname, final String pEmail,
@@ -108,6 +109,7 @@ public class User {
 
     /**
      * Gets the id.
+     *
      * @return value of id
      */
     public Integer getId() {
@@ -116,6 +118,7 @@ public class User {
 
     /**
      * Sets the id.
+     *
      * @param pId new id
      */
     public void setId(final Integer pId) {
@@ -124,6 +127,7 @@ public class User {
 
     /**
      * Gets the email.
+     *
      * @return value of email
      */
     public String getEmail() {
@@ -132,6 +136,7 @@ public class User {
 
     /**
      * Sets the email.
+     *
      * @param pEmail new email
      */
     public void setEmail(final String pEmail) {
@@ -140,6 +145,7 @@ public class User {
 
     /**
      * Gets the lastname.
+     *
      * @return value of lastname
      */
     public String getLastname() {
@@ -148,6 +154,7 @@ public class User {
 
     /**
      * Sets the lastname.
+     *
      * @param pLastname new lastname
      */
     public void setLastname(final String pLastname) {
@@ -156,6 +163,7 @@ public class User {
 
     /**
      * Gets the firstname.
+     *
      * @return value of firstname
      */
     public String getFirstname() {
@@ -164,6 +172,7 @@ public class User {
 
     /**
      * Sets the firstname.
+     *
      * @param pFirstname new firstname
      */
     public void setFirstname(final String pFirstname) {
@@ -172,6 +181,7 @@ public class User {
 
     /**
      * Gets the age.
+     *
      * @return value of age
      */
     public Integer getAge() {
@@ -180,6 +190,7 @@ public class User {
 
     /**
      * Sets the age.
+     *
      * @param pAge new age
      */
     public void setAge(final Integer pAge) {
@@ -188,6 +199,7 @@ public class User {
 
     /**
      * Gets the gender.
+     *
      * @return value of gender
      */
     public Gender getGender() {
@@ -196,6 +208,7 @@ public class User {
 
     /**
      * Sets the gender.
+     *
      * @param pGender new gender
      */
     public void setGender(final Gender pGender) {
@@ -204,6 +217,7 @@ public class User {
 
     /**
      * Gets the weight.
+     *
      * @return value of weight
      */
     public Double getWeight() {
@@ -212,6 +226,7 @@ public class User {
 
     /**
      * Sets the weight.
+     *
      * @param pWeight new weight
      */
     public void setWeight(final Double pWeight) {
@@ -220,6 +235,7 @@ public class User {
 
     /**
      * Gets the password.
+     *
      * @return value of password
      */
     public String getPassword() {
@@ -228,6 +244,7 @@ public class User {
 
     /**
      * Sets the password.
+     *
      * @param pPassword new password
      */
     public void setPassword(final String pPassword) {

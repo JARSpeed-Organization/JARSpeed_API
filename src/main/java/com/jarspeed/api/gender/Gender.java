@@ -8,6 +8,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * The type Gender.
+ */
 @Entity
 @Table(name = Gender.TABLE_NAME)
 public class Gender {
@@ -44,7 +47,8 @@ public class Gender {
 
     /**
      * Constructor with all attributs.
-     * @param pId Id of gender
+     *
+     * @param pId    Id of gender
      * @param pLabel Label of gender
      */
     public Gender(final Integer pId, final String pLabel) {
@@ -54,6 +58,7 @@ public class Gender {
 
     /**
      * Gets the id.
+     *
      * @return value of Id
      */
     public Integer getId() {
@@ -62,6 +67,7 @@ public class Gender {
 
     /**
      * Sets the id.
+     *
      * @param pId New id
      */
     public void setId(final Integer pId) {
@@ -70,6 +76,7 @@ public class Gender {
 
     /**
      * Gets the label.
+     *
      * @return value of label
      */
     public String getLabel() {
@@ -78,6 +85,7 @@ public class Gender {
 
     /**
      * Sets the label.
+     *
      * @param pLabel new label
      */
     public void setLabel(final String pLabel) {
