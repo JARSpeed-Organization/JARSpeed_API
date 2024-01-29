@@ -3,6 +3,8 @@ package com.jarspeed.api.user;
 import com.jarspeed.api.gender.Gender;
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 /**
  * Entity representing a user in the system for tracking
  * tracking system.
@@ -29,7 +31,7 @@ public class User {
 
     private String firstname;
 
-    private Integer age;
+    private Date birthdate;
 
     @ManyToOne
     @JoinColumn(name = COLUMN_NAME_GENDER, referencedColumnName = Gender.COLUMN_NAME_ID)
@@ -42,11 +44,11 @@ public class User {
     public User() {
     }
 
-    public User(String pLastname, String pFirstname, String pEmail, Integer pAge, Gender pGender, Double pWeight, String pPassword) {
+    public User(String pLastname, String pFirstname, String pEmail, Date pBirthdate, Gender pGender, Double pWeight, String pPassword) {
         this.lastname = pLastname;
         this.firstname = pFirstname;
         this.email = pEmail;
-        this.age = pAge;
+        this.birthdate = pBirthdate;
         this.gender = pGender;
         this.weight = pWeight;
         this.password = pPassword;
@@ -84,12 +86,12 @@ public class User {
         this.email = email;
     }
 
-    public Integer getAge() {
-        return age;
+    public Date getBirthdate() {
+        return birthdate;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
     }
 
     public Gender getGender() {

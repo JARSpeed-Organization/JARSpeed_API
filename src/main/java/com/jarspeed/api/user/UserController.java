@@ -110,8 +110,8 @@ public class UserController {
         if (newUser.getFirstname() != null && !newUser.getFirstname().isEmpty()) {
             existingUser.setFirstname(newUser.getFirstname());
         }
-        if (newUser.getAge() != null) {
-            existingUser.setAge(newUser.getAge());
+        if (newUser.getBirthdate() != null) {
+            existingUser.setBirthdate(newUser.getBirthdate());
         }
         if (newUser.getWeight() != null) {
             existingUser.setWeight(newUser.getWeight());
