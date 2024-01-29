@@ -96,9 +96,7 @@
         </dependency>
 
         <!--
-        *
-        *   DEPENDANCES MONGOBDB
-        *
+        *       DEPENDANCES MONGOBDB
         -->
 
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-mongodb -->
@@ -108,15 +106,6 @@
             <version>3.2.2</version>
         </dependency>
 
-
-
-
-        <!--
-       *
-       *   DEPENDANCES MONGOBDB
-       *
-       -->
-
     </dependencies>
 
     <build>
@@ -125,9 +114,8 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <!-- Autres plugins nécessaires -->
 
-<!--
+            <!-- Checkstyle -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -148,7 +136,6 @@
                     </execution>
                 </executions>
             </plugin>
--->
         </plugins>
     </build>
 </project>

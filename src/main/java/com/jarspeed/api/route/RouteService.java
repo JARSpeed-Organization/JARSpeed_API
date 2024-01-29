@@ -4,24 +4,27 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.stereotype.Repository;
-
 
 
 /**
  * Service for managing routes.
- * This service contains business logic related to routes and interacts with the RouteRepository.
+ * This service contains business logic related to routes and interacts
+ * with the RouteRepository.
  */
 @Service
 public class RouteService {
 
+    /**
+     * The Route repository.
+     */
     @Autowired
-    private RouteRepository routeRepository; // Injects an instance of RouteRepository.
+    private RouteRepository routeRepository; // Injects an instance
+    // of RouteRepository.
 
     /**
      * Retrieves all routes.
-     * This method calls the repository to fetch all routes stored in the database.
-     *
+     * This method calls the repository to fetch all routes stored
+     * in the database.
      * @return a list of all routes.
      */
     public List<Route> getAllRoutes() {
@@ -35,7 +38,7 @@ public class RouteService {
      * @param id The ID of the route.
      * @return the route if found, or null.
      */
-    public Route getRouteById(String id) {
+    public Route getRouteById(final String id) {
         Optional<Route> route = routeRepository.findById(id);
         return route.orElse(null);
     }
@@ -47,7 +50,7 @@ public class RouteService {
      * @param route The route to be created.
      * @return the created route.
      */
-    public Route createRoute(Route route) {
+    public Route createRoute(final Route route) {
         return routeRepository.save(route);
     }
 
@@ -55,11 +58,11 @@ public class RouteService {
      * Updates an existing route.
      * If the route exists, it is updated with the provided details and saved.
      *
-     * @param id The ID of the route to be updated.
+     * @param id           The ID of the route to be updated.
      * @param routeDetails The new details for the route.
      * @return the updated route, or null if the route doesn't exist.
      */
-    public Route updateRoute(String id, Route routeDetails) {
+    public Route updateRoute(final String id, final Route routeDetails) {
         Route route = routeRepository.findById(id).orElse(null);
         if (route != null) {
             // Update logic here
@@ -82,7 +85,7 @@ public class RouteService {
      *
      * @param id The ID of the route to be deleted.
      */
-    public void deleteRoute(String id) {
+    public void deleteRoute(final String id) {
         routeRepository.deleteById(id);
     }
 
