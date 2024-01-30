@@ -45,7 +45,7 @@ CREATE TABLE `user` (
   `lastname` varchar(255) NOT NULL,
   `firstname` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL UNIQUE,
-  `age` int(11),
+  `birthdate` DATE,
   `gender` int(11),
   `weight` double,
   `password` varchar(255) NOT NULL

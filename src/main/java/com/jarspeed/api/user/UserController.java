@@ -4,9 +4,15 @@ import com.jarspeed.api.security.RefreshTokenService;
 import com.jarspeed.api.security.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 import java.util.Map;
@@ -30,45 +36,73 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * The Token service.
+     */
     @Autowired
     private TokenService tokenService;
 
+    /**
+     * The Refresh token service.
+     */
     @Autowired
     private RefreshTokenService refreshTokenService;
 
+    /**
+     * Login user response entity.
+     *
+     * @param email    the email
+     * @param password the password
+     * @return the response entity
+     */
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<?> loginUser(final @RequestParam String email,
+                                       final @RequestParam String password) {
         User user = userRepository.findUserByEmailAndPassword(email, password);
         if (user != null) {
             String token = tokenService.generateToken(user.getId());
-            String refreshToken = refreshTokenService.generateRefreshToken(user.getId());
-            return ResponseEntity.ok(Map.of("token", token, "refreshToken", refreshToken));
+            String refreshToken =
+                    refreshTokenService.generateRefreshToken(user.getId());
+            return ResponseEntity.ok(Map.of("token", token, "refreshToken",
+                    refreshToken));
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid credentials");
         }
     }
 
+    /**
+     * Refresh token response entity.
+     *
+     * @param refreshToken the refresh token
+     * @return the response entity
+     */
     @PostMapping("/refreshToken")
-    public ResponseEntity<?> refreshToken(@RequestParam String refreshToken) {
+    public ResponseEntity<?> refreshToken(
+            final @RequestParam String refreshToken) {
         if (refreshTokenService.validateRefreshToken(refreshToken)) {
-            Integer userId = refreshTokenService.getUserIdFromRefreshToken(refreshToken);
+            Integer userId = refreshTokenService
+                    .getUserIdFromRefreshToken(refreshToken);
             String newToken = tokenService.generateToken(userId);
             return ResponseEntity.ok(Map.of("token", newToken));
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid refresh token");
         }
     }
 
     /**
      * Recovery all users.
      *
+     * @param request the request
      * @return all users in table
      */
     @GetMapping("/")
-    public ResponseEntity<?> getAll(HttpServletRequest request) {
+    public ResponseEntity<?> getAll(final HttpServletRequest request) {
         String token = extractToken(request);
         if (token == null || !tokenService.validateToken(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Unauthorized access");
         }
 
         List<User> users = userRepository.findAll();
@@ -78,51 +112,72 @@ public class UserController {
     /**
      * Find user by id.
      *
-     * @param pId id for search
+     * @param pId     id for search
+     * @param request the request
      * @return user of search with criteria (user.id = pId)
      */
     @GetMapping("/findById")
-    public ResponseEntity<?> findById(@RequestParam Integer pId,
-                               HttpServletRequest request) {
+    public ResponseEntity<?> findById(final @RequestParam Integer pId,
+                               final HttpServletRequest request) {
         String token = extractToken(request);
         if (token == null || !tokenService.validateToken(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Unauthorized access");
         }
 
         User user = userRepository.findUserById(pId);
         if (user != null) {
             return ResponseEntity.ok(user);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("User not found");
         }
     }
 
+    /**
+     * Register user response entity.
+     *
+     * @param registrationRequest the registration request
+     * @return the response entity
+     */
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserRegistrationRequest registrationRequest) {
+    public ResponseEntity<?> registerUser(
+            final @RequestBody UserRegistrationRequest registrationRequest) {
         // Vérifier si l'email existe déjà
         if (userRepository.existsByEmail(registrationRequest.getEmail())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already in use");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Email already in use");
         }
 
-        // Créer un nouvel utilisateur avec des valeurs par défaut pour les champs non renseignés
+        // Créer un nouvel utilisateur avec des valeurs par défaut pour
+        // les champs non renseignés
         User newUser = new User();
         newUser.setLastname(registrationRequest.getLastname());
         newUser.setFirstname(registrationRequest.getFirstname());
         newUser.setEmail(registrationRequest.getEmail());
         newUser.setPassword(hashPassword(registrationRequest.getPassword()));
-        newUser.setAge(null); // Valeur par défaut pour l'âge
+        newUser.setBirthdate(null); // Valeur par défaut pour l'âge
         newUser.setWeight(null); // Valeur par défaut pour le poids
-        newUser.setGender(null); // Vous pouvez également définir une valeur par défaut ou laisser null si autorisé
+        newUser.setGender(null); // Vous pouvez également définir une valeur
+                                // par défaut ou laisser null si autorisé
 
         // Enregistrer l'utilisateur dans la base de données
         userRepository.save(newUser);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("User registered successfully");
     }
 
 
-    private String hashPassword(String password) {
-        // Utiliser BCrypt ou un autre algorithme de hachage pour sécuriser le mot de passe
+    /**
+     * Hash password string.
+     *
+     * @param password the password
+     * @return the string
+     */
+    private String hashPassword(final String password) {
+        // Utiliser BCrypt ou un autre algorithme de hachage
+        // pour sécuriser le mot de passe
         return password; // Remplacer par la logique de hachage réelle
     }
 
@@ -173,15 +228,15 @@ public class UserController {
                 user.setFirstname(pUser.getFirstname());
             }
         }
-        if (pUser.getAge() != null) {
-            if (user.getAge() != null) {
+        if (pUser.getBirthdate() != null) {
+            if (user.getBirthdate() != null) {
                 // The new age is equals to the old
-                if (!pUser.getAge().equals(user.getAge())) {
-                    user.setAge(pUser.getAge());
+                if (!pUser.getBirthdate().equals(user.getBirthdate())) {
+                    user.setBirthdate(pUser.getBirthdate());
                 }
             } else {
                 // Age has never been initialised
-                user.setAge(pUser.getAge());
+                user.setBirthdate(pUser.getBirthdate());
             }
         }
         if (pUser.getWeight() != null) {
@@ -220,11 +275,23 @@ public class UserController {
         return userRepository.save(user);
     }
 
-    // Utilitaire pour extraire le token du header de la requête
-    private String extractToken(HttpServletRequest request) {
+
+    /**
+     * The constant BEGIN_INDEX.
+     */
+    private static final int BEGIN_INDEX = 7;
+
+    /**
+     * Extract token string.
+     *
+     * @param request the request
+     * @return the string
+     */
+// Utilitaire pour extraire le token du header de la requête
+    private String extractToken(final HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
+            return bearerToken.substring(BEGIN_INDEX);
         }
         return null;
     }

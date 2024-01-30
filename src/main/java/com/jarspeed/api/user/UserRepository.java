@@ -21,8 +21,21 @@ public interface UserRepository extends JpaRepository<User, Integer> {
      */
     User findUserById(Integer pId);
 
+    /**
+     * Find user by email and password user.
+     *
+     * @param email    the email
+     * @param password the password
+     * @return the user
+     */
     User findUserByEmailAndPassword(String email, String password);
 
+    /**
+     * Exists by email boolean.
+     *
+     * @param email the email
+     * @return the boolean
+     */
     boolean existsByEmail(String email);
 
 

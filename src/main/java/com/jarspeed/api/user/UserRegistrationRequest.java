@@ -7,62 +7,133 @@ import java.io.Serializable;
  */
 public class UserRegistrationRequest implements Serializable {
 
+    /**
+     * The Lastname.
+     */
     private String lastname;
+    /**
+     * The Firstname.
+     */
     private String firstname;
+    /**
+     * The Email.
+     */
     private String email;
+    /**
+     * The Password.
+     */
     private String password;
 
+    /**
+     * Instantiates a new User registration request.
+     */
     public UserRegistrationRequest() {
     }
 
-    public UserRegistrationRequest(String lastname, String firstname, String email, String password) {
-        this.lastname = lastname;
-        this.firstname = firstname;
-        this.email = email;
-        this.password = password;
+    /**
+     * Instantiates a new User registration request.
+     *
+     * @param pLastname  the p lastname
+     * @param pFirstname the p firstname
+     * @param pEmail     the p email
+     * @param pPassword  the p password
+     */
+    public UserRegistrationRequest(final String pLastname,
+                                   final String pFirstname,
+                                   final String pEmail,
+                                   final String pPassword) {
+        this.lastname = pLastname;
+        this.firstname = pFirstname;
+        this.email = pEmail;
+        this.password = pEmail;
     }
 
-    // Getters
+    /**
+     * Gets lastname.
+     *
+     * @return the lastname
+     */
+// Getters
     public String getLastname() {
         return lastname;
     }
 
+    /**
+     * Gets firstname.
+     *
+     * @return the firstname
+     */
     public String getFirstname() {
         return firstname;
     }
 
+    /**
+     * Gets email.
+     *
+     * @return the email
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Gets password.
+     *
+     * @return the password
+     */
     public String getPassword() {
         return password;
     }
 
-    // Setters
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    /**
+     * Sets lastname.
+     *
+     * @param pLastname the p lastname
+     */
+// Setters
+    public void setLastname(final String pLastname) {
+        this.lastname = pLastname;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    /**
+     * Sets firstname.
+     *
+     * @param pFirstname the p firstname
+     */
+    public void setFirstname(final String pFirstname) {
+        this.firstname = pFirstname;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    /**
+     * Sets email.
+     *
+     * @param pEmail the p email
+     */
+    public void setEmail(final String pEmail) {
+        this.email = pEmail;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    /**
+     * Sets password.
+     *
+     * @param pPassword the p password
+     */
+    public void setPassword(final String pPassword) {
+        this.password = pPassword;
     }
 
+    /**
+     * Get toString.
+     *
+     * @return toString version of some datas.
+     */
     @Override
     public String toString() {
-        return "UserRegistrationRequest{" +
-                "lastname='" + lastname + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + "[PROTECTED]" + '\'' +
-                '}';
+        return "UserRegistrationRequest{"
+                + "lastname='" + lastname + '\''
+                + ", firstname='" + firstname + '\''
+                + ", email='" + email + '\''
+                + ", password='" + "[PROTECTED]" + '\''
+                + '}';
     }
 }
