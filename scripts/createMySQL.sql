@@ -102,7 +102,15 @@ ALTER TABLE `user`
 INSERT INTO gender (label) VALUES ('Femme');
 INSERT INTO gender (label) VALUES ('Homme');
 
-INSERT INTO user (lastname, firstname, email, age, gender, weight, password) VALUES ('Launay', 'Simon', 'simon.launay@iut-rodez.fr', 22, 2, 88, 'password');
-INSERT INTO user (lastname, firstname, email, age, gender, weight, password) VALUES ('Bois', 'Axel', 'axel.bois@iut-rodez.fr', 21, 2, 72, 'password');
-INSERT INTO user (lastname, firstname, email, age, gender, weight, password) VALUES ('Blanchard', 'Jules', 'jules.blanchard@iut-rodez.fr', 19, 2, 60, 'password');
-INSERT INTO user (lastname, firstname, email, age, gender, weight, password) VALUES ('Courbaize', 'Romain', 'romain.courbaize@iut-rodez.fr', 21, 2, 80, 'password');
+
+
+INSERT INTO user (lastname, firstname, email, birthdate, gender, weight, password)
+VALUES ('Launay', 'Simon', 'simon.launay@iut-rodez.fr','2002-10-10', 2, 88,
+        'password');
+INSERT INTO user (lastname, firstname, email, birthdate, gender, weight,
+                  password) VALUES ('Bois', 'Axel', 'axel.bois@iut-rodez.fr',
+                                    '2003-09-12',2,  72, 'password');
+INSERT INTO user (lastname, firstname, email, birthdate, gender, weight,
+                  password) VALUES ('Blanchard', 'Jules', 'jules.blanchard@iut-rodez.fr','2003-09-22',2,  72, 'password');
+INSERT INTO user (lastname, firstname, email, birthdate, gender, weight,
+                  password) VALUES ('Courbaize', 'Romain', 'romain.courbaize@iut-rodez.fr', '2003-09-16',2, 80, 'password');
