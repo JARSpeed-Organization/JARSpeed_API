@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.util.Date;
 
 /**
  * Entity representing a user in the system for tracking
@@ -55,9 +56,9 @@ public class User {
     private String firstname;
 
     /**
-     * The Age.
+     * The Birthdate.
      */
-    private Integer age;
+    private Date birthdate;
 
     /**
      * The Gender.
@@ -91,20 +92,20 @@ public class User {
      * @param pLastname  Lastname
      * @param pFirstname Firstname
      * @param pEmail     Email
-     * @param pAge       Age
+     * @param pBirthdate Birthdate
      * @param pGender    Gender
      * @param pWeight    Weight
      * @param pPassword  Password
      */
     public User(final Integer pId, final String pLastname,
                 final String pFirstname, final String pEmail,
-                final Integer pAge, final Gender pGender,
+                final Date pBirthdate, final Gender pGender,
                 final Double pWeight, final String pPassword) {
         this.id = pId;
         this.lastname = pLastname;
         this.firstname = pFirstname;
         this.email = pEmail;
-        this.age = pAge;
+        this.birthdate = pBirthdate;
         this.gender = pGender;
         this.weight = pWeight;
         this.password = pPassword;
@@ -120,12 +121,12 @@ public class User {
     }
 
     /**
-     * Sets id.
+     * Gets email.
      *
-     * @param id the id
+     * @return the email
      */
-    public void setId(Integer id) {
-        this.id = id;
+    public String getEmail() {
+        return email;
     }
 
     /**
@@ -138,15 +139,6 @@ public class User {
     }
 
     /**
-     * Sets lastname.
-     *
-     * @param pLastname the p lastname
-     */
-    public void setLastname(String pLastname) {
-        this.lastname = pLastname;
-    }
-
-    /**
      * Gets firstname.
      *
      * @return the firstname
@@ -156,48 +148,84 @@ public class User {
     }
 
     /**
-     * Sets firstname.
+     * Sets id.
      *
-     * @param pFirstname the p firstname
+     * @param pId the p id
      */
-    public void setFirstname(String pFirstname) {
-        this.firstname = pFirstname;
-    }
-
-    /**
-     * Gets email.
-     *
-     * @return the email
-     */
-    public String getEmail() {
-        return email;
+    public void setId(final Integer pId) {
+        id = pId;
     }
 
     /**
      * Sets email.
      *
-     * @param email the email
+     * @param pEmail the p email
      */
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmail(final String pEmail) {
+        email = pEmail;
     }
 
     /**
-     * Gets age.
+     * Sets lastname.
      *
-     * @return the age
+     * @param pLastname the p lastname
      */
-    public Integer getAge() {
-        return age;
+    public void setLastname(final String pLastname) {
+        lastname = pLastname;
     }
 
     /**
-     * Sets age.
+     * Sets firstname.
      *
-     * @param age the age
+     * @param pFirstname the p firstname
      */
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setFirstname(final String pFirstname) {
+        firstname = pFirstname;
+    }
+
+    /**
+     * Sets birthdate.
+     *
+     * @param pBirthdate the p birthdate
+     */
+    public void setBirthdate(final Date pBirthdate) {
+        birthdate = pBirthdate;
+    }
+
+    /**
+     * Sets gender.
+     *
+     * @param pGender the p gender
+     */
+    public void setGender(final Gender pGender) {
+        gender = pGender;
+    }
+
+    /**
+     * Sets weight.
+     *
+     * @param pWeight the p weight
+     */
+    public void setWeight(final Double pWeight) {
+        weight = pWeight;
+    }
+
+    /**
+     * Sets password.
+     *
+     * @param pPassword the p password
+     */
+    public void setPassword(final String pPassword) {
+        password = pPassword;
+    }
+
+    /**
+     * Gets birthdate.
+     *
+     * @return the birthdate
+     */
+    public Date getBirthdate() {
+        return birthdate;
     }
 
     /**
@@ -210,15 +238,6 @@ public class User {
     }
 
     /**
-     * Sets gender.
-     *
-     * @param gender the gender
-     */
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    /**
      * Gets weight.
      *
      * @return the weight
@@ -228,29 +247,11 @@ public class User {
     }
 
     /**
-     * Sets weight.
-     *
-     * @param weight the weight
-     */
-    public void setWeight(Double weight) {
-        this.weight = weight;
-    }
-
-    /**
      * Gets password.
      *
      * @return the password
      */
     public String getPassword() {
         return password;
-    }
-
-    /**
-     * Sets password.
-     *
-     * @param password the password
-     */
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

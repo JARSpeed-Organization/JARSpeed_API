@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import com.jarspeed.api.security.TokenService;
 import com.jarspeed.api.security.RefreshTokenService;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,9 +28,9 @@ class UserControllerTest {
 
     private final Gender HOMME = new Gender(1, "Homme");
     private final List<User> USERS = List.of(new User(1, "McGregor", "Conor",
-     "conor.mcgregor@gmail.com", 35, HOMME, 71.0, "password"), new User(2,
+     "conor.mcgregor@gmail.com", new Date(1985,9,12), HOMME, 71.0, "password"), new User(2,
             "Saint Denis", "Benoît",
-            "benoit.saintdenis@gmail.com", 28, HOMME, 70.3, "password"));
+            "benoit.saintdenis@gmail.com", new Date(2000,6,16), HOMME, 70.3, "password"));
 
     @Mock
     private UserRepository userRepository;
@@ -93,11 +94,11 @@ class UserControllerTest {
     void mergeUserEmailChanged() {
         // Utilisateur existant dans la base de données
         User existingUser = new User(1, "McGregor", "Conor",
-                "conor.mcgregor@gmail.com", 35, HOMME, 71.0, "oldPassword");
+                "conor.mcgregor@gmail.com", new Date(1985,9,12), HOMME, 71.0, "oldPassword");
 
         // Nouvelles données de l'utilisateur à fusionner
         User newUser = new User(1,"Saint Denis", "Benoît",
-                "benoit.saintdenis@gmail.com", 28, HOMME, 70.3, "newPassword");
+                "benoit.saintdenis@gmail.com", new Date(2000,6,16), HOMME, 70.3, "newPassword");
 
         // Simuler le comportement du userRepository
         when(userRepository.findUserById(anyInt())).thenReturn(existingUser);
@@ -113,7 +114,7 @@ class UserControllerTest {
         assertEquals(newUser.getLastname(), mergedUser.getLastname());
         assertEquals(newUser.getFirstname(), mergedUser.getFirstname());
         assertEquals(newUser.getEmail(), mergedUser.getEmail());
-        assertEquals(newUser.getAge(), mergedUser.getAge());
+        assertEquals(newUser.getBirthdate(), mergedUser.getBirthdate());
         assertEquals(newUser.getGender(), mergedUser.getGender());
         assertEquals(newUser.getWeight(), mergedUser.getWeight());
         assertEquals(newUser.getPassword(), mergedUser.getPassword());
