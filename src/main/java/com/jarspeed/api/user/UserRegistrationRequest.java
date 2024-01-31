@@ -1,6 +1,9 @@
 package com.jarspeed.api.user;
 
+import com.jarspeed.api.gender.Gender;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Classe pour gérer les données d'inscription d'un utilisateur.
@@ -23,6 +26,19 @@ public class UserRegistrationRequest implements Serializable {
      * The Password.
      */
     private String password;
+
+    /**
+     * The Birthdate.
+     */
+    private Date birthdate;
+    /**
+     * The Gender.
+     */
+    private Gender gender;
+    /**
+     * The Weight.
+     */
+    private Double weight;
 
     /**
      * Instantiates a new User registration request.

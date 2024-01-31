@@ -114,3 +114,5 @@ INSERT INTO user (lastname, firstname, email, birthdate, gender, weight,
                   password) VALUES ('Blanchard', 'Jules', 'jules.blanchard@iut-rodez.fr','2003-09-22',2,  72, 'password');
 INSERT INTO user (lastname, firstname, email, birthdate, gender, weight,
                   password) VALUES ('Courbaize', 'Romain', 'romain.courbaize@iut-rodez.fr', '2003-09-16',2, 80, 'password');
+
+ALTER TABLE `user` ADD `token` VARCHAR(255);

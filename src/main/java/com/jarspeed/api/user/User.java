@@ -61,6 +61,11 @@ public class User {
     private Date birthdate;
 
     /**
+     * The Token.
+     */
+    private String token;
+
+    /**
      * The Gender.
      */
     @ManyToOne
@@ -109,6 +114,36 @@ public class User {
         this.gender = pGender;
         this.weight = pWeight;
         this.password = pPassword;
+    }
+
+    /**
+     * Met à jour les informations de l'utilisateur
+     * en fonction des données fournies.
+     *
+     * @param updateRequest L'objet contenant les informations de mise à jour.
+     */
+    public void updateUserInfos(final UserUpdateRequest updateRequest) {
+        if (updateRequest.getEmail() != null) {
+            this.email = updateRequest.getEmail();
+        }
+        if (updateRequest.getFirstname() != null) {
+            this.firstname = updateRequest.getFirstname();
+        }
+        if (updateRequest.getLastname() != null) {
+            this.lastname = updateRequest.getLastname();
+        }
+        if (updateRequest.getPassword() != null) {
+            this.password = updateRequest.getPassword();
+        }
+        if (updateRequest.getBirthdate() != null) {
+            this.birthdate = updateRequest.getBirthdate();
+        }
+        if (updateRequest.getGender() != null) {
+            this.gender = updateRequest.getGender();
+        }
+        if (updateRequest.getWeight() != null) {
+            this.weight = updateRequest.getWeight();
+        }
     }
 
     /**
@@ -253,5 +288,23 @@ public class User {
      */
     public String getPassword() {
         return password;
+    }
+
+    /**
+     * Gets token.
+     *
+     * @return the token
+     */
+    public String getToken() {
+        return token;
+    }
+
+    /**
+     * Sets token.
+     *
+     * @param pToken the token
+     */
+    public void setToken(final String pToken) {
+        this.token = pToken;
     }
 }

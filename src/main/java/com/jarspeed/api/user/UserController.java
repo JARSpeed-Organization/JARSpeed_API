@@ -3,9 +3,12 @@ package com.jarspeed.api.user;
 import com.jarspeed.api.security.RefreshTokenService;
 import com.jarspeed.api.security.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,6 +52,17 @@ public class UserController {
     private RefreshTokenService refreshTokenService;
 
     /**
+     * The constant BEGIN_INDEX.
+     */
+    private static final int BEGIN_INDEX = 7;
+
+    /**
+     * The constant logger.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            UserController.class);
+
+    /**
      * Login user response entity.
      *
      * @param email    the email
@@ -61,10 +75,12 @@ public class UserController {
         User user = userRepository.findUserByEmailAndPassword(email, password);
         if (user != null) {
             String token = tokenService.generateToken(user.getId());
+            user.setToken(token); // Stockez le token dans l'utilisateur
+            userRepository.save(user); // Sauvegardez utilisateur avec le token
             String refreshToken =
                     refreshTokenService.generateRefreshToken(user.getId());
-            return ResponseEntity.ok(Map.of("token", token, "refreshToken",
-                    refreshToken));
+            return ResponseEntity.ok(Map.of("token", token,
+                    "refreshToken", refreshToken));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid credentials");
@@ -181,105 +197,47 @@ public class UserController {
         return password; // Remplacer par la logique de hachage réelle
     }
 
+
     /**
-     * Merge the new user information with the old.
-     * If an information is null or if the new information is equal to the old
-     * information, no changes are made to this information.
+     * Update user response entity.
      *
-     * @param pUser new user
-     * @return new user, after merge
+     * @param request       the request
+     * @param updateRequest the update request
+     * @return the response entity
      */
-    @PutMapping("/merge")
-    public User merge(@RequestBody final User pUser) {
-        User user = userRepository.findUserById(pUser.getId());
-        if (user == null) {
-            throw new IllegalArgumentException("User not found");
+    @PutMapping("/update")
+    public ResponseEntity<?> updateUser(final HttpServletRequest request,
+                                        final @RequestBody UserUpdateRequest
+                                                updateRequest) {
+        String token = extractToken(request);
+        if (token == null) {
+            LOGGER.error("No token provided");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("No token provided");
         }
-        if (pUser.getEmail() != null) {
-            if (user.getEmail() != null) {
-                // The new email is equals to the old
-                if (!pUser.getEmail().equals(user.getEmail())) {
-                    user.setEmail(pUser.getEmail());
-                }
+
+        LOGGER.info("Update request received with token: {}", token);
+
+        Integer userId = tokenService.getUserIdFromToken(token);
+        if (userId != null) {
+            LOGGER.info("Token corresponds to user ID: {}", userId);
+            User user = userRepository.findUserById(userId);
+            if (user != null) {
+                user.updateUserInfos(updateRequest);
+                userRepository.save(user);
+                LOGGER.info("User with ID: {} updated successfully", userId);
+                return ResponseEntity.ok("User updated successfully");
             } else {
-                // Email has never been initialised
-                user.setEmail(pUser.getEmail());
+                LOGGER.error("User with ID: {} not found", userId);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("User not found");
             }
+        } else {
+            LOGGER.error("Invalid or expired token");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid token");
         }
-        if (pUser.getLastname() != null) {
-            if (user.getLastname() != null) {
-                // The new lastname is equals to the old
-                if (!pUser.getLastname().equals(user.getLastname())) {
-                    user.setLastname(pUser.getLastname());
-                }
-            } else {
-                // Lastname has never been initialised
-                user.setLastname(pUser.getLastname());
-            }
-        }
-        if (pUser.getFirstname() != null) {
-            if (user.getFirstname() != null) {
-                // The new firstname is equals to the old
-                if (!pUser.getFirstname().equals(user.getFirstname())) {
-                    user.setFirstname(pUser.getFirstname());
-                }
-            } else {
-                // Firstname has never been initialised
-                user.setFirstname(pUser.getFirstname());
-            }
-        }
-        if (pUser.getBirthdate() != null) {
-            if (user.getBirthdate() != null) {
-                // The new age is equals to the old
-                if (!pUser.getBirthdate().equals(user.getBirthdate())) {
-                    user.setBirthdate(pUser.getBirthdate());
-                }
-            } else {
-                // Age has never been initialised
-                user.setBirthdate(pUser.getBirthdate());
-            }
-        }
-        if (pUser.getWeight() != null) {
-            if (user.getWeight() != null) {
-                // The new weight is equals to the old
-                if (!pUser.getWeight().equals(user.getWeight())) {
-                    user.setWeight(pUser.getWeight());
-                }
-            } else {
-                // Weight has never been initialised
-                user.setWeight(pUser.getWeight());
-            }
-        }
-        if (pUser.getGender() != null) {
-            if (user.getGender() != null) {
-                // The new gender is equals to the old
-                if (!pUser.getGender().equals(user.getGender())) {
-                    user.setGender(pUser.getGender());
-                }
-            } else {
-                // Gender has never been initialised
-                user.setGender(pUser.getGender());
-            }
-        }
-        if (pUser.getPassword() != null) {
-            if (user.getPassword() != null) {
-                // The new password is equals to the old
-                if (!pUser.getPassword().equals(user.getPassword())) {
-                    user.setPassword(pUser.getPassword());
-                }
-            } else {
-                // Password has never been initialised
-                user.setPassword(pUser.getPassword());
-            }
-        }
-        return userRepository.save(user);
     }
-
-
-    /**
-     * The constant BEGIN_INDEX.
-     */
-    private static final int BEGIN_INDEX = 7;
 
     /**
      * Extract token string.
@@ -295,4 +253,45 @@ public class UserController {
         }
         return null;
     }
+
+    /**
+     * Test token method response entity.
+     *
+     * @return the response entity
+     */
+    @GetMapping("/testToken")
+    public ResponseEntity<?> testTokenMethod() {
+        String testToken = "MjoxNzA2NzE1ODM5NzE2OjhjMjgzZTVjLTZkNmUtNDBiYS1h"
+                + "NDk2LTU3OGUyYjIyOTVlOA=="; // Remplacez par le token obtenu
+        Integer userId = tokenService.getUserIdFromToken(testToken);
+
+        System.out.println("UserID from Token: " + userId);
+        return ResponseEntity.ok("Check console for output");
+    }
+
+    /**
+     * Delete account response entity.
+     *
+     * @param request the request
+     * @return the response entity
+     */
+    @DeleteMapping("/deleteAccount")
+    public ResponseEntity<?> deleteAccount(final HttpServletRequest request) {
+        String token = extractToken(request);
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Unauthorized: No token provided");
+        }
+
+        Integer userId = tokenService.getUserIdFromToken(token);
+        if (userId != null) {
+            userRepository.deleteById(userId);
+            return ResponseEntity.ok("Account deleted successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Unauthorized: Invalid token");
+        }
+    }
+
+
 }

@@ -1,5 +1,8 @@
 package com.jarspeed.api.security;
 
+import com.jarspeed.api.user.User;
+import com.jarspeed.api.user.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
@@ -10,7 +13,12 @@ import java.util.UUID;
  */
 @Service
 public class TokenService {
-
+    /**
+     * Service to manage user-related operations.
+     * The Spring framework automatically injects a UserService instance.
+     */
+    @Autowired
+    private UserRepository userRepository;
     /**
      * The constant TOKEN_EXPIRY_TIME.
      * 5 heures en millisecondes.
@@ -46,5 +54,16 @@ public class TokenService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    /**
+     * Gets user id from token.
+     *
+     * @param token the token
+     * @return the user id from token
+     */
+    public Integer getUserIdFromToken(final String token) {
+        User user = userRepository.findByToken(token);
+        return user != null ? user.getId() : null;
     }
 }
