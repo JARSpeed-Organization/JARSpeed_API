@@ -254,20 +254,6 @@ public class UserController {
         return null;
     }
 
-    /**
-     * Test token method response entity.
-     *
-     * @return the response entity
-     */
-    @GetMapping("/testToken")
-    public ResponseEntity<?> testTokenMethod() {
-        String testToken = "MjoxNzA2NzE1ODM5NzE2OjhjMjgzZTVjLTZkNmUtNDBiYS1h"
-                + "NDk2LTU3OGUyYjIyOTVlOA=="; // Remplacez par le token obtenu
-        Integer userId = tokenService.getUserIdFromToken(testToken);
-
-        System.out.println("UserID from Token: " + userId);
-        return ResponseEntity.ok("Check console for output");
-    }
 
     /**
      * Delete account response entity.
