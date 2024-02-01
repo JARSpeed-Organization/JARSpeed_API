@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -52,7 +53,6 @@ class UserControllerTest {
         updatedUser = new User(1, "UpdatedLastName", "UpdatedFirstName",
                 "updated@example.com", new Date(), new Gender(2, "Femme"), 80.0,
                 "updatedPassword");
-
     }
 
     @Test
@@ -185,5 +185,135 @@ class UserControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals("Email already in use", response.getBody());
     }
+
+    @Test
+    void deleteUserWithValidToken() {
+        // Arrange
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        when(mockRequest.getHeader("Authorization")).thenReturn("Bearer validToken");
+        when(tokenService.getUserIdFromToken("validToken")).thenReturn(1);
+        doNothing().when(userRepository).deleteById(1);
+
+        // Act
+        ResponseEntity<?> response = userController.deleteAccount(mockRequest);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Account deleted successfully", response.getBody());
+
+        verify(userRepository, times(1)).deleteById(1);
+    }
+
+    @Test
+    void deleteUserWithInvalidToken() {
+        // Arrange
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        when(mockRequest.getHeader("Authorization")).thenReturn("Bearer invalidToken");
+        when(tokenService.getUserIdFromToken("invalidToken")).thenReturn(null);
+
+        // Act
+        ResponseEntity<?> response = userController.deleteAccount(mockRequest);
+
+        // Assert
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals("Unauthorized: Invalid token", response.getBody());
+
+        verify(userRepository, never()).deleteById(anyInt());
+    }
+
+    @Test
+    void deleteAccountWithoutTokenProvided() {
+        // Arrange
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        when(mockRequest.getHeader("Authorization")).thenReturn(null); // Simuler une requête sans en-tête d'autorisation
+
+        // Act
+        ResponseEntity<?> response = userController.deleteAccount(mockRequest);
+
+        // Assert
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals("Unauthorized: No token provided", response.getBody());
+
+        verify(userRepository, never()).deleteById(anyInt());
+    }
+
+    @Test
+    void updateUserWithValidTokenAndExistingUser() {
+        // Arrange
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        when(mockRequest.getHeader("Authorization")).thenReturn("Bearer validToken");
+        when(tokenService.getUserIdFromToken("validToken")).thenReturn(1);
+        when(userRepository.findUserById(1)).thenReturn(existingUser);
+
+        UserUpdateRequest updateRequest = new UserUpdateRequest("updated@example.com", "UpdatedLastName", "UpdatedFirstName", "updatedPassword", new Date(), new Gender(2, "Femme"), 80.0);
+        when(userRepository.save(any(User.class))).thenAnswer(returnsFirstArg());
+
+        // Act
+        ResponseEntity<?> response = userController.updateUser(mockRequest, updateRequest);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("User updated successfully", response.getBody());
+
+        verify(userRepository, times(1)).save(any(User.class));
+    }
+
+    @Test
+    void updateUserWithInvalidToken() {
+        // Arrange
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        when(mockRequest.getHeader("Authorization")).thenReturn("Bearer invalidToken");
+        when(tokenService.getUserIdFromToken("invalidToken")).thenReturn(null);
+
+        UserUpdateRequest updateRequest = new UserUpdateRequest(); // Contenu de la requête ignoré car le token est invalide
+
+        // Act
+        ResponseEntity<?> response = userController.updateUser(mockRequest, updateRequest);
+
+        // Assert
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals("Invalid token", response.getBody());
+
+        verify(userRepository, never()).save(any(User.class));
+    }
+
+    @Test
+    void updateUserWithValidTokenAndUserNotFound() {
+        // Arrange
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        when(mockRequest.getHeader("Authorization")).thenReturn("Bearer validToken");
+        when(tokenService.getUserIdFromToken("validToken")).thenReturn(1);
+        when(userRepository.findUserById(1)).thenReturn(null); // Aucun utilisateur correspondant
+
+        UserUpdateRequest updateRequest = new UserUpdateRequest("updated@example.com", "UpdatedLastName", "UpdatedFirstName", "updatedPassword", new Date(), new Gender(2, "Femme"), 80.0);
+
+        // Act
+        ResponseEntity<?> response = userController.updateUser(mockRequest, updateRequest);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("User not found", response.getBody());
+
+        verify(userRepository, never()).save(any(User.class));
+    }
+
+    @Test
+    void updateUserWithoutTokenProvided() {
+        // Arrange
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        when(mockRequest.getHeader("Authorization")).thenReturn(null); // Simuler une requête sans en-tête d'autorisation
+
+        UserUpdateRequest updateRequest = new UserUpdateRequest(); // Les détails de la mise à jour sont ignorés ici
+
+        // Act
+        ResponseEntity<?> response = userController.updateUser(mockRequest, updateRequest);
+
+        // Assert
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals("No token provided", response.getBody());
+
+        verify(userRepository, never()).save(any(User.class));
+    }
+
 
 }
