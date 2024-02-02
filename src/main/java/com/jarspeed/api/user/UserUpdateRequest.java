@@ -1,6 +1,8 @@
 package com.jarspeed.api.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jarspeed.api.gender.Gender;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
