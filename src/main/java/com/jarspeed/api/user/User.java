@@ -1,5 +1,6 @@
 package com.jarspeed.api.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jarspeed.api.gender.Gender;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -279,5 +279,26 @@ public class UserController {
         }
     }
 
+    /**
+     * Gets user profile.
+     *
+     * @param request the request
+     * @return the user profile
+     */
+    @GetMapping("/profile")
+    public ResponseEntity<?> getUserProfile(HttpServletRequest request) {
+        String token = extractToken(request);
+        if (token == null || !tokenService.validateToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access");
+        }
+
+        Integer userId = tokenService.getUserIdFromToken(token);
+        User user = userRepository.findUserById(userId);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    }
 
 }
