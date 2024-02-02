@@ -2,6 +2,8 @@ package com.jarspeed.api.route;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -18,17 +20,13 @@ public class Route {
     @Id
     private String id;
     /**
-     * The Date.
+     * The start date.
      */
-    private Date date;
+    private Date startDate;
     /**
-     * The Start point.
+     * The end date.
      */
-    private Coordinate startPoint;
-    /**
-     * The End point.
-     */
-    private Coordinate endPoint;
+    private Date endDate;
     /**
      * The Path.
      */
@@ -67,57 +65,39 @@ public class Route {
     }
 
     /**
-     * Gets date.
+     * Gets start date.
      *
-     * @return the date
+     * @return the start date
      */
-    public Date getDate() {
-        return date;
+    public Date getStartDate() {
+        return startDate;
     }
 
     /**
-     * Sets date.
+     * Sets start date.
      *
-     * @param pDate the date
+     * @param pStartDate the p start date
      */
-    public void setDate(final Date pDate) {
-        this.date = pDate;
+    public void setStartDate(Date pStartDate) {
+        startDate = pStartDate;
     }
 
     /**
-     * Gets start point.
+     * Gets end date.
      *
-     * @return the start point
+     * @return the end date
      */
-    public Coordinate getStartPoint() {
-        return startPoint;
+    public Date getEndDate() {
+        return endDate;
     }
 
     /**
-     * Sets start point.
+     * Sets end date.
      *
-     * @param pStartPoint the start point
+     * @param pEndDate the p end date
      */
-    public void setStartPoint(final Coordinate pStartPoint) {
-        this.startPoint = pStartPoint;
-    }
-
-    /**
-     * Gets end point.
-     *
-     * @return the end point
-     */
-    public Coordinate getEndPoint() {
-        return endPoint;
-    }
-
-    /**
-     * Sets end point.
-     *
-     * @param pEndPoint the end point
-     */
-    public void setEndPoint(final Coordinate pEndPoint) {
-        this.endPoint = pEndPoint;
+    public void setEndDate(Date pEndDate) {
+        endDate = pEndDate;
     }
 
     /**
