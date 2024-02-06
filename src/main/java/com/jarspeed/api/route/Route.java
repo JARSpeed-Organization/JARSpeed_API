@@ -185,6 +185,7 @@ public class Route {
          */
         private double longitude;
 
+        public Coordinate() {}
         /**
          * Constructor with all attributes.
          * @param pLatitude Latitude
