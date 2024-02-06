@@ -68,9 +68,8 @@ public class RouteService {
             throw new IllegalArgumentException("ID non trouvé");
         }
         // Update logic here
-        route.setDate(routeDetails.getDate());
-        route.setStartPoint(routeDetails.getStartPoint());
-        route.setEndPoint(routeDetails.getEndPoint());
+        route.setStartDate(routeDetails.getStartDate());
+        route.setEndDate(routeDetails.getEndDate());
         route.setPath(routeDetails.getPath());
         route.setPointsOfInterest(routeDetails.getPointsOfInterest());
         route.setTitle(routeDetails.getTitle());
