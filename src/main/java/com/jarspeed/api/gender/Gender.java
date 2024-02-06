@@ -8,12 +8,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 /**
  * The type Gender.
  */
 @Entity
 @Table(name = Gender.TABLE_NAME)
-public class Gender {
+public class Gender implements Serializable {
 
     /**
      * Name of table gender in database (MySQL).
@@ -92,5 +95,30 @@ public class Gender {
         label = pLabel;
     }
 
+    /**
+     * Check if this equal to p0.
+     * @param pO Object to check
+     * @return True if all attributes are equal to p0
+     */
+    @Override
+    public boolean equals(final Object pO) {
+        if (this == pO) {
+            return true;
+        }
+        if (pO == null || getClass() != pO.getClass()) {
+            return false;
+        }
+        Gender gender = (Gender) pO;
+        return Objects.equals(id, gender.id)
+                && Objects.equals(label, gender.label);
+    }
 
+    /**
+     * Hash code.
+     * @return Hash code
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, label);
+    }
 }

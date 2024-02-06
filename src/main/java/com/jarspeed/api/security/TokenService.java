@@ -5,6 +5,7 @@ import com.jarspeed.api.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.UUID;
 
@@ -34,7 +35,8 @@ public class TokenService {
     public String generateToken(final Integer userId) {
         String tokenData = userId + ":" + System.currentTimeMillis()
                 + ":" + UUID.randomUUID().toString();
-        return Base64.getEncoder().encodeToString(tokenData.getBytes());
+        return Base64.getEncoder()
+                .encodeToString(tokenData.getBytes(StandardCharsets.UTF_8));
     }
 
     /**
@@ -45,7 +47,8 @@ public class TokenService {
      */
     public boolean validateToken(final String token) {
         try {
-            String decoded = new String(Base64.getDecoder().decode(token));
+            String decoded = new String(Base64.getDecoder().decode(token),
+                    StandardCharsets.UTF_8);
             String[] parts = decoded.split(":");
             long timestamp = Long.parseLong(parts[1]);
             long currentTime = System.currentTimeMillis();
