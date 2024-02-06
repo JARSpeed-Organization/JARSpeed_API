@@ -1,8 +1,6 @@
 package com.jarspeed.api.user;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jarspeed.api.gender.Gender;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -68,8 +66,9 @@ public class UserUpdateRequest implements Serializable {
         this.lastname = pLastname;
         this.firstname = pFirstname;
         this.password = pPassword;
-        this.birthdate = pBirthdate;
-        this.gender = pGender;
+        this.birthdate = pBirthdate != null ? (Date) pBirthdate.clone() : null;
+        this.gender = pGender != null ? new Gender(pGender.getId(),
+                pGender.getLabel()) : null;
         this.weight = pWeight;
     }
 
@@ -88,7 +87,7 @@ public class UserUpdateRequest implements Serializable {
      * @param pEmail the email
      */
     public void setEmail(final String pEmail) {
-        this.email = pEmail;
+        this.email = String.copyValueOf(pEmail.toCharArray());
     }
 
     /**
@@ -106,7 +105,7 @@ public class UserUpdateRequest implements Serializable {
      * @param pLastname the lastname
      */
     public void setLastname(final String pLastname) {
-        this.lastname = pLastname;
+        this.lastname = String.copyValueOf(pLastname.toCharArray());
     }
 
     /**
@@ -124,7 +123,7 @@ public class UserUpdateRequest implements Serializable {
      * @param pFirstname the firstname
      */
     public void setFirstname(final String pFirstname) {
-        this.firstname = pFirstname;
+        this.firstname = String.copyValueOf(pFirstname.toCharArray());
     }
 
     /**
@@ -142,7 +141,7 @@ public class UserUpdateRequest implements Serializable {
      * @param pPassword the password
      */
     public void setPassword(final String pPassword) {
-        this.password = pPassword;
+        this.password = String.copyValueOf(pPassword.toCharArray());
     }
 
     /**
@@ -151,7 +150,7 @@ public class UserUpdateRequest implements Serializable {
      * @return the birthdate
      */
     public Date getBirthdate() {
-        return birthdate;
+        return birthdate != null ? (Date) birthdate.clone() : null;
     }
 
     /**
@@ -160,7 +159,7 @@ public class UserUpdateRequest implements Serializable {
      * @param pBirthdate the birthdate
      */
     public void setBirthdate(final Date pBirthdate) {
-        this.birthdate = pBirthdate;
+        this.birthdate = pBirthdate != null ? (Date) pBirthdate.clone() : null;
     }
 
     /**
@@ -169,7 +168,8 @@ public class UserUpdateRequest implements Serializable {
      * @return the gender
      */
     public Gender getGender() {
-        return gender;
+        return gender != null
+                ? new Gender(gender.getId(), gender.getLabel()) : null;
     }
 
     /**
@@ -178,7 +178,8 @@ public class UserUpdateRequest implements Serializable {
      * @param pGender the gender
      */
     public void setGender(final Gender pGender) {
-        this.gender = pGender;
+        this.gender = pGender != null ? new Gender(pGender.getId(),
+                pGender.getLabel()) : null;
     }
 
     /**

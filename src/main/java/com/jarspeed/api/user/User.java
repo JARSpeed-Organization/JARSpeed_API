@@ -1,6 +1,5 @@
 package com.jarspeed.api.user;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jarspeed.api.gender.Gender;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -111,8 +110,9 @@ public class User {
         this.lastname = pLastname;
         this.firstname = pFirstname;
         this.email = pEmail;
-        this.birthdate = pBirthdate;
-        this.gender = pGender;
+        this.birthdate = (Date) pBirthdate.clone();
+        this.gender = pGender != null ? new Gender(pGender.getId(),
+                pGender.getLabel()) : null;
         this.weight = pWeight;
         this.password = pPassword;
     }
@@ -162,7 +162,7 @@ public class User {
      * @return the email
      */
     public String getEmail() {
-        return email;
+        return String.copyValueOf(email.toCharArray());
     }
 
     /**
@@ -171,7 +171,7 @@ public class User {
      * @return the lastname
      */
     public String getLastname() {
-        return lastname;
+        return String.copyValueOf(lastname.toCharArray());
     }
 
     /**
@@ -180,7 +180,7 @@ public class User {
      * @return the firstname
      */
     public String getFirstname() {
-        return firstname;
+        return String.copyValueOf(firstname.toCharArray());
     }
 
     /**
@@ -225,7 +225,7 @@ public class User {
      * @param pBirthdate the p birthdate
      */
     public void setBirthdate(final Date pBirthdate) {
-        birthdate = pBirthdate;
+        birthdate = pBirthdate != null ? (Date) pBirthdate.clone() : null;
     }
 
     /**
@@ -234,7 +234,8 @@ public class User {
      * @param pGender the p gender
      */
     public void setGender(final Gender pGender) {
-        gender = pGender;
+        gender = pGender != null ? new Gender(pGender.getId(),
+            pGender.getLabel()) : null;
     }
 
     /**
@@ -261,7 +262,7 @@ public class User {
      * @return the birthdate
      */
     public Date getBirthdate() {
-        return birthdate;
+        return (Date) birthdate.clone();
     }
 
     /**
@@ -270,7 +271,7 @@ public class User {
      * @return the gender
      */
     public Gender getGender() {
-        return gender;
+        return new Gender(gender.getId(), gender.getLabel());
     }
 
     /**

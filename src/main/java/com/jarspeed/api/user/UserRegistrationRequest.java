@@ -92,7 +92,7 @@ public class UserRegistrationRequest implements Serializable {
      */
 // Setters
     public void setLastname(final String pLastname) {
-        this.lastname = pLastname;
+        this.lastname = String.copyValueOf(pLastname.toCharArray());
     }
 
     /**
@@ -101,7 +101,7 @@ public class UserRegistrationRequest implements Serializable {
      * @param pFirstname the p firstname
      */
     public void setFirstname(final String pFirstname) {
-        this.firstname = pFirstname;
+        this.firstname = String.copyValueOf(pFirstname.toCharArray());
     }
 
     /**
@@ -110,7 +110,7 @@ public class UserRegistrationRequest implements Serializable {
      * @param pEmail the p email
      */
     public void setEmail(final String pEmail) {
-        this.email = pEmail;
+        this.email = String.copyValueOf(pEmail.toCharArray());
     }
 
     /**
@@ -119,7 +119,7 @@ public class UserRegistrationRequest implements Serializable {
      * @param pPassword the p password
      */
     public void setPassword(final String pPassword) {
-        this.password = pPassword;
+        this.password = String.copyValueOf(pPassword.toCharArray());
     }
 
     /**
