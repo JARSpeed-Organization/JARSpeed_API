@@ -286,10 +286,11 @@ public class UserController {
      * @return the user profile
      */
     @GetMapping("/profile")
-    public ResponseEntity<?> getUserProfile(HttpServletRequest request) {
+    public ResponseEntity<?> getUserProfile(final HttpServletRequest request) {
         String token = extractToken(request);
         if (token == null || !tokenService.validateToken(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Unauthorized access");
         }
 
         Integer userId = tokenService.getUserIdFromToken(token);
@@ -297,7 +298,8 @@ public class UserController {
         if (user != null) {
             return ResponseEntity.ok(user);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("User not found");
         }
     }
 
