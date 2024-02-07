@@ -1,5 +1,6 @@
 package com.jarspeed.api.route;
 
+import com.jarspeed.api.util.ObjectUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -69,7 +70,7 @@ public class Route {
      * @return the start date
      */
     public Date getStartDate() {
-        return (Date) startDate.clone();
+        return ObjectUtils.cloneDate(startDate);
     }
 
     /**
@@ -78,7 +79,7 @@ public class Route {
      * @param pStartDate the p start date
      */
     public void setStartDate(final Date pStartDate) {
-        startDate = pStartDate != null ? new Date(pStartDate.getTime()) : null;
+        startDate = ObjectUtils.cloneDate(pStartDate);
     }
 
     /**
@@ -87,7 +88,7 @@ public class Route {
      * @return the end date
      */
     public Date getEndDate() {
-        return (Date) endDate.clone();
+        return ObjectUtils.cloneDate(endDate);
     }
 
     /**
@@ -96,7 +97,7 @@ public class Route {
      * @param pEndDate the p end date
      */
     public void setEndDate(final Date pEndDate) {
-        endDate = pEndDate != null ? new Date(pEndDate.getTime()) : null;
+        endDate = ObjectUtils.cloneDate(pEndDate);
     }
 
     /**
@@ -105,7 +106,7 @@ public class Route {
      * @return the path
      */
     public List<Coordinate> getPath() {
-        return List.copyOf(path);
+        return ObjectUtils.cloneListCoordinate(path);
     }
 
     /**
@@ -114,7 +115,7 @@ public class Route {
      * @param pPath the path
      */
     public void setPath(final List<Coordinate> pPath) {
-        this.path = List.copyOf(pPath);
+        this.path = ObjectUtils.cloneListCoordinate(pPath);
     }
 
     /**
@@ -123,7 +124,7 @@ public class Route {
      * @return the points of interest
      */
     public List<PointOfInterest> getPointsOfInterest() {
-        return List.copyOf(pointsOfInterest);
+        return ObjectUtils.cloneListPointOfInterest(pointsOfInterest);
     }
 
     /**
@@ -133,7 +134,8 @@ public class Route {
      */
     public void setPointsOfInterest(final List<PointOfInterest>
                                             pPointsOfInterest) {
-        this.pointsOfInterest = List.copyOf(pPointsOfInterest);
+        this.pointsOfInterest =
+                ObjectUtils.cloneListPointOfInterest(pPointsOfInterest);
     }
 
     /**
@@ -142,7 +144,7 @@ public class Route {
      * @return the title
      */
     public String getTitle() {
-        return String.copyValueOf(title.toCharArray());
+        return ObjectUtils.cloneString(title);
     }
 
     /**
@@ -160,7 +162,7 @@ public class Route {
      * @return the description
      */
     public String getDescription() {
-        return String.copyValueOf(description.toCharArray());
+        return ObjectUtils.cloneString(description);
     }
 
     /**
@@ -185,7 +187,12 @@ public class Route {
          */
         private double longitude;
 
-        public Coordinate() {}
+        /**
+         * Default constructor.
+         */
+        public Coordinate() {
+            // Empty constructor
+        }
         /**
          * Constructor with all attributes.
          * @param pLatitude Latitude

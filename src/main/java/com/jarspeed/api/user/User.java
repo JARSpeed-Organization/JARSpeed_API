@@ -1,6 +1,7 @@
 package com.jarspeed.api.user;
 
 import com.jarspeed.api.gender.Gender;
+import com.jarspeed.api.util.ObjectUtils;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -110,40 +111,38 @@ public class User {
         this.lastname = pLastname;
         this.firstname = pFirstname;
         this.email = pEmail;
-        this.birthdate = (Date) pBirthdate.clone();
-        this.gender = pGender != null ? new Gender(pGender.getId(),
-                pGender.getLabel()) : null;
+        this.birthdate = ObjectUtils.cloneDate(pBirthdate);
+        this.gender = ObjectUtils.cloneGender(pGender);
         this.weight = pWeight;
         this.password = pPassword;
     }
 
     /**
-     * Met à jour les informations de l'utilisateur
-     * en fonction des données fournies.
+     * Update user information with the new data.
      *
-     * @param updateRequest L'objet contenant les informations de mise à jour.
+     * @param pUpdateRequest The object with the new information.
      */
-    public void updateUserInfos(final UserUpdateRequest updateRequest) {
-        if (updateRequest.getEmail() != null) {
-            this.email = updateRequest.getEmail();
+    public void updateUserInfos(final UserUpdateRequest pUpdateRequest) {
+        if (pUpdateRequest.getEmail() != null) {
+            this.email = pUpdateRequest.getEmail();
         }
-        if (updateRequest.getFirstname() != null) {
-            this.firstname = updateRequest.getFirstname();
+        if (pUpdateRequest.getFirstname() != null) {
+            this.firstname = pUpdateRequest.getFirstname();
         }
-        if (updateRequest.getLastname() != null) {
-            this.lastname = updateRequest.getLastname();
+        if (pUpdateRequest.getLastname() != null) {
+            this.lastname = pUpdateRequest.getLastname();
         }
-        if (updateRequest.getPassword() != null) {
-            this.password = updateRequest.getPassword();
+        if (pUpdateRequest.getPassword() != null) {
+            this.password = pUpdateRequest.getPassword();
         }
-        if (updateRequest.getBirthdate() != null) {
-            this.birthdate = updateRequest.getBirthdate();
+        if (pUpdateRequest.getBirthdate() != null) {
+            this.birthdate = pUpdateRequest.getBirthdate();
         }
-        if (updateRequest.getGender() != null) {
-            this.gender = updateRequest.getGender();
+        if (pUpdateRequest.getGender() != null) {
+            this.gender = pUpdateRequest.getGender();
         }
-        if (updateRequest.getWeight() != null) {
-            this.weight = updateRequest.getWeight();
+        if (pUpdateRequest.getWeight() != null) {
+            this.weight = pUpdateRequest.getWeight();
         }
     }
 
@@ -162,7 +161,7 @@ public class User {
      * @return the email
      */
     public String getEmail() {
-        return String.copyValueOf(email.toCharArray());
+        return ObjectUtils.cloneString(email);
     }
 
     /**
@@ -171,7 +170,7 @@ public class User {
      * @return the lastname
      */
     public String getLastname() {
-        return String.copyValueOf(lastname.toCharArray());
+        return ObjectUtils.cloneString(lastname);
     }
 
     /**
@@ -180,7 +179,7 @@ public class User {
      * @return the firstname
      */
     public String getFirstname() {
-        return String.copyValueOf(firstname.toCharArray());
+        return ObjectUtils.cloneString(firstname);
     }
 
     /**
@@ -225,7 +224,7 @@ public class User {
      * @param pBirthdate the p birthdate
      */
     public void setBirthdate(final Date pBirthdate) {
-        birthdate = pBirthdate != null ? (Date) pBirthdate.clone() : null;
+        birthdate = ObjectUtils.cloneDate(pBirthdate);
     }
 
     /**
@@ -234,8 +233,7 @@ public class User {
      * @param pGender the p gender
      */
     public void setGender(final Gender pGender) {
-        gender = pGender != null ? new Gender(pGender.getId(),
-            pGender.getLabel()) : null;
+        gender = ObjectUtils.cloneGender(pGender);
     }
 
     /**
@@ -262,7 +260,7 @@ public class User {
      * @return the birthdate
      */
     public Date getBirthdate() {
-        return (Date) birthdate.clone();
+        return ObjectUtils.cloneDate(birthdate);
     }
 
     /**
@@ -271,7 +269,7 @@ public class User {
      * @return the gender
      */
     public Gender getGender() {
-        return new Gender(gender.getId(), gender.getLabel());
+        return ObjectUtils.cloneGender(gender);
     }
 
     /**

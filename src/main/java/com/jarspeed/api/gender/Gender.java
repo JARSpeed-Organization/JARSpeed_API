@@ -1,6 +1,7 @@
 package com.jarspeed.api.gender;
 
 
+import com.jarspeed.api.util.ObjectUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -83,7 +84,7 @@ public class Gender implements Serializable {
      * @return value of label
      */
     public String getLabel() {
-        return label;
+        return ObjectUtils.cloneString(label);
     }
 
     /**
