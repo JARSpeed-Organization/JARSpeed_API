@@ -3,7 +3,7 @@ package com.jarspeed.api.route;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,8 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import com.jarspeed.api.route.Route;
 
 @ExtendWith(MockitoExtension.class)
 public class RouteServiceTest {
@@ -36,8 +34,8 @@ public class RouteServiceTest {
         existingRoute.setId("1");
         existingRoute.setTitle("Title");
         existingRoute.setDescription("Description");
-        existingRoute.setStartDate(new Date(159));
-        existingRoute.setEndDate(new Date(852));
+        existingRoute.setStartDate(LocalDateTime.MAX);
+        existingRoute.setEndDate(LocalDateTime.MAX);
         existingRoute.setPath(List.of(coordinate));
         existingRoute.setPointsOfInterest(List.of());
     }
@@ -53,8 +51,8 @@ public class RouteServiceTest {
         updatedRouteDetails.setId("1");
         updatedRouteDetails.setTitle("Title");
         updatedRouteDetails.setDescription("Description");
-        updatedRouteDetails.setStartDate(new Date(159));
-        updatedRouteDetails.setEndDate(new Date(852));
+        updatedRouteDetails.setStartDate(LocalDateTime.MIN);
+        updatedRouteDetails.setEndDate(LocalDateTime.MIN);
         updatedRouteDetails.setPath(List.of(coordinate));
         updatedRouteDetails.setPointsOfInterest(List.of());
 
