@@ -2,6 +2,9 @@ package com.jarspeed.api.route;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,14 +26,14 @@ public class RouteTest {
 
     @Test
     public void testGetAndSetStartDate() {
-        Date startDate = new Date();
+        LocalDateTime startDate = LocalDateTime.MAX;
         route.setStartDate(startDate);
         assertEquals(startDate, route.getStartDate());
     }
 
     @Test
     public void testGetAndSetEndDate() {
-        Date endDate = new Date();
+        LocalDateTime endDate = LocalDateTime.MIN;
         route.setEndDate(endDate);
         assertEquals(endDate, route.getEndDate());
     }

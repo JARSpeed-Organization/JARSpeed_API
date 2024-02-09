@@ -4,7 +4,7 @@ import com.jarspeed.api.util.ObjectUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -22,11 +22,11 @@ public class Route {
     /**
      * The start date.
      */
-    private Date startDate;
+    private LocalDateTime startDate;
     /**
      * The end date.
      */
-    private Date endDate;
+    private LocalDateTime endDate;
     /**
      * The Path.
      */
@@ -69,8 +69,8 @@ public class Route {
      *
      * @return the start date
      */
-    public Date getStartDate() {
-        return ObjectUtils.cloneDate(startDate);
+    public LocalDateTime getStartDate() {
+        return startDate;
     }
 
     /**
@@ -78,8 +78,8 @@ public class Route {
      *
      * @param pStartDate the p start date
      */
-    public void setStartDate(final Date pStartDate) {
-        startDate = ObjectUtils.cloneDate(pStartDate);
+    public void setStartDate(final LocalDateTime pStartDate) {
+        startDate = pStartDate;
     }
 
     /**
@@ -87,8 +87,8 @@ public class Route {
      *
      * @return the end date
      */
-    public Date getEndDate() {
-        return ObjectUtils.cloneDate(endDate);
+    public LocalDateTime getEndDate() {
+        return endDate;
     }
 
     /**
@@ -96,8 +96,8 @@ public class Route {
      *
      * @param pEndDate the p end date
      */
-    public void setEndDate(final Date pEndDate) {
-        endDate = ObjectUtils.cloneDate(pEndDate);
+    public void setEndDate(final LocalDateTime pEndDate) {
+        endDate = pEndDate;
     }
 
     /**
