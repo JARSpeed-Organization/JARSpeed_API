@@ -2,6 +2,7 @@ package com.jarspeed.api.user;
 
 import com.jarspeed.api.security.RefreshTokenService;
 import com.jarspeed.api.security.TokenService;
+import com.jarspeed.api.security.TokenUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,11 +51,6 @@ public class UserController {
      */
     @Autowired
     private RefreshTokenService refreshTokenService;
-
-    /**
-     * The constant BEGIN_INDEX.
-     */
-    private static final int BEGIN_INDEX = 7;
 
     /**
      * The constant logger.
@@ -115,7 +111,7 @@ public class UserController {
      */
     @GetMapping("/")
     public ResponseEntity<?> getAll(final HttpServletRequest request) {
-        String token = extractToken(request);
+        String token = TokenUtils.extractToken(request);
         if (token == null || !tokenService.validateToken(token)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Unauthorized access");
@@ -135,7 +131,7 @@ public class UserController {
     @GetMapping("/findById")
     public ResponseEntity<?> findById(final @RequestParam Integer pId,
                                final HttpServletRequest request) {
-        String token = extractToken(request);
+        String token = TokenUtils.extractToken(request);
         if (token == null || !tokenService.validateToken(token)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Unauthorized access");
@@ -209,7 +205,7 @@ public class UserController {
     public ResponseEntity<?> updateUser(final HttpServletRequest request,
                                         final @RequestBody UserUpdateRequest
                                                 updateRequest) {
-        String token = extractToken(request);
+        String token = TokenUtils.extractToken(request);
         if (token == null) {
             LOGGER.error("No token provided");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -240,22 +236,6 @@ public class UserController {
     }
 
     /**
-     * Extract token string.
-     *
-     * @param request the request
-     * @return the string
-     */
-// Utilitaire pour extraire le token du header de la requête
-    private String extractToken(final HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(BEGIN_INDEX);
-        }
-        return null;
-    }
-
-
-    /**
      * Delete account response entity.
      *
      * @param request the request
@@ -263,7 +243,7 @@ public class UserController {
      */
     @DeleteMapping("/deleteAccount")
     public ResponseEntity<?> deleteAccount(final HttpServletRequest request) {
-        String token = extractToken(request);
+        String token = TokenUtils.extractToken(request);
         if (token == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Unauthorized: No token provided");
@@ -287,7 +267,7 @@ public class UserController {
      */
     @GetMapping("/profile")
     public ResponseEntity<?> getUserProfile(final HttpServletRequest request) {
-        String token = extractToken(request);
+        String token = TokenUtils.extractToken(request);
         if (token == null || !tokenService.validateToken(token)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Unauthorized access");

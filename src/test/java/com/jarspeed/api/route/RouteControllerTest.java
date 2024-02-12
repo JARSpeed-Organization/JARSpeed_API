@@ -1,12 +1,16 @@
 package com.jarspeed.api.route;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jarspeed.api.security.TokenService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -14,15 +18,19 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class RouteControllerTest {
+
+    @Mock
+    private TokenService tokenService;
 
     @Mock
     private RouteService routeService;
@@ -39,11 +47,27 @@ public class RouteControllerTest {
     }
 
     @Test
-    public void getAllRoutesTest() throws Exception {
+    public void getAllRoutesUnauthorizedTest() throws Exception {
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        when(mockRequest.getHeader("Authorization")).thenReturn("Bearer invalidToken");
+        when(tokenService.validateToken("invalidToken")).thenReturn(false);
+
+        ResponseEntity<?> response = routeController.getAllRoutes(mockRequest);
+
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals("Unauthorized access", response.getBody());
+    }
+
+    @Test
+    public void getAllRoutesAuthorizedTest() throws Exception {
+        // Simule un token valide
+        given(tokenService.validateToken(any())).willReturn(true);
+        given(tokenService.getUserIdFromToken(any())).willReturn(4); // Supposons que l'ID de l'utilisateur soit 4
         List<Route> routes = Arrays.asList(new Route(), new Route());
-        given(routeService.getAllRoutes()).willReturn(routes);
+        given(routeService.getAllRoutesByUserId("4")).willReturn(routes);
 
         mockMvc.perform(get("/routes")
+                        .header("Authorization", "Bearer valid_token")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
