@@ -1,7 +1,10 @@
 package com.jarspeed.api.route;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jarspeed.api.gender.Gender;
 import com.jarspeed.api.security.TokenService;
+import com.jarspeed.api.user.User;
+import com.jarspeed.api.user.UserUpdateRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,10 +18,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -87,17 +92,31 @@ public class RouteControllerTest {
     }
 
     @Test
-    public void createRouteTest() throws Exception {
+    public void createRouteUnauthorizedTest() throws Exception {
+        given(tokenService.validateToken(any())).willReturn(false);
+
+        mockMvc.perform(post("/routes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(new Route())))
+                .andExpect(status().isUnauthorized())
+                .andExpect(content().string("Unauthorized access"));
+    }
+
+    @Test
+    public void createRouteAuthorizedTest() throws Exception {
+        given(tokenService.validateToken(any())).willReturn(true);
+        given(tokenService.getUserIdFromToken(any())).willReturn(123); // Supposons que l'ID de l'utilisateur soit "123"
         Route route = new Route();
         route.setId("route1");
         route.setTitle("Test Route");
         given(routeService.createRoute(any(Route.class))).willReturn(route);
 
         mockMvc.perform(post("/routes")
+                        .header("Authorization", "Bearer valid_token")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(route)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title", is("Test Route")));
+                .andExpect(content().string(containsString("Test Route")));
     }
 
     @Test

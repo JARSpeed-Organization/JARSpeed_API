@@ -69,12 +69,20 @@ public class RouteController {
     /**
      * Handles the POST request to create a new route.
      *
-     * @param route The route object to be created.
+     * @param pRequest The request.
+     * @param pRoute The route object to be created.
      * @return the created route.
      */
     @PostMapping
-    public Route createRoute(@RequestBody final Route route) {
-        return routeService.createRoute(route);
+    public ResponseEntity<?> createRoute(final HttpServletRequest pRequest,
+                             @RequestBody final Route pRoute) {
+        String token = TokenUtils.extractToken(pRequest);
+        if (token == null || !tokenService.validateToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Unauthorized access");
+        }
+        pRoute.setUserId(tokenService.getUserIdFromToken(token).toString());
+        return ResponseEntity.ok(routeService.createRoute(pRoute));
     }
 
     /**
