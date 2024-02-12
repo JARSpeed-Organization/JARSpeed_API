@@ -1,6 +1,11 @@
 package com.jarspeed.api.route;
 
+import com.jarspeed.api.security.TokenService;
+import com.jarspeed.api.security.TokenUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
-
-import java.util.List;
 
 /**
  * Controller for handling HTTP requests related to routes.
@@ -29,13 +32,27 @@ public class RouteController {
     private RouteService routeService; // Injects an instance of RouteService.
 
     /**
-     * Handles the GET request to retrieve all routes.
+     * The Token service.
+     */
+    @Autowired
+    private TokenService tokenService;
+
+    /**
+     * Handles the GET request to retrieve all routes by user id.
      *
-     * @return a list of all routes.
+     * @param pRequest the request
+     * @return a list of all routes by user id.
      */
     @GetMapping
-    public List<Route> getAllRoutes() {
-        return routeService.getAllRoutes();
+    public ResponseEntity<?> getAllRoutes(final HttpServletRequest pRequest) {
+        String token = TokenUtils.extractToken(pRequest);
+        if (token == null || !tokenService.validateToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Unauthorized access");
+        }
+        Integer userId = tokenService.getUserIdFromToken(token);
+        return ResponseEntity.ok(
+                routeService.getAllRoutesByUserId(userId.toString()));
     }
 
     /**
@@ -52,12 +69,20 @@ public class RouteController {
     /**
      * Handles the POST request to create a new route.
      *
-     * @param route The route object to be created.
+     * @param pRequest The request.
+     * @param pRoute The route object to be created.
      * @return the created route.
      */
     @PostMapping
-    public Route createRoute(@RequestBody final Route route) {
-        return routeService.createRoute(route);
+    public ResponseEntity<?> createRoute(final HttpServletRequest pRequest,
+                             @RequestBody final Route pRoute) {
+        String token = TokenUtils.extractToken(pRequest);
+        if (token == null || !tokenService.validateToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Unauthorized access");
+        }
+        pRoute.setUserId(tokenService.getUserIdFromToken(token).toString());
+        return ResponseEntity.ok(routeService.createRoute(pRoute));
     }
 
     /**

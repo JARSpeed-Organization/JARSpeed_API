@@ -20,6 +20,10 @@ public class Route {
     @Id
     private String id;
     /**
+     * The User id.
+     */
+    private String userId;
+    /**
      * The start date.
      */
     private LocalDateTime startDate;
@@ -62,6 +66,24 @@ public class Route {
      */
     public void setId(final String pId) {
         this.id = pId;
+    }
+
+    /**
+     * Gets user id.
+     *
+     * @return the user id
+     */
+    public String getUserId() {
+        return userId;
+    }
+
+    /**
+     * Sets user id.
+     *
+     * @param pUserId the p user id
+     */
+    public void setUserId(final String pUserId) {
+        userId = pUserId;
     }
 
     /**
@@ -193,9 +215,11 @@ public class Route {
         public Coordinate() {
             // Empty constructor
         }
+
         /**
          * Constructor with all attributes.
-         * @param pLatitude Latitude
+         *
+         * @param pLatitude  Latitude
          * @param pLongitude Longitude
          */
         public Coordinate(final double pLatitude, final double pLongitude) {

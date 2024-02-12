@@ -25,10 +25,12 @@ public class RouteService {
      * Retrieves all routes.
      * This method calls the repository to fetch all routes stored
      * in the database.
+     *
+     * @param pUserId the user id
      * @return a list of all routes.
      */
-    public List<Route> getAllRoutes() {
-        return routeRepository.findAll();
+    public List<Route> getAllRoutesByUserId(final String pUserId) {
+        return routeRepository.findAllByUserId(pUserId);
     }
 
     /**
