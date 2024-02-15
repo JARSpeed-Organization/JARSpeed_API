@@ -47,6 +47,14 @@ public class Route {
      * The Description.
      */
     private String description;
+    /**
+     * The Elevation gain.
+     */
+    private double elevationGain;
+    /**
+     * The Elevation loss.
+     */
+    private double elevationLoss;
 
     // Getters and Setters
 
@@ -208,6 +216,10 @@ public class Route {
          * The Longitude.
          */
         private double longitude;
+        /**
+         * The Altitude.
+         */
+        private double altitude;
 
         /**
          * Default constructor.
@@ -221,10 +233,13 @@ public class Route {
          *
          * @param pLatitude  Latitude
          * @param pLongitude Longitude
+         * @param pAltitude  the p altitude
          */
-        public Coordinate(final double pLatitude, final double pLongitude) {
+        public Coordinate(final double pLatitude, final double pLongitude,
+                          final double pAltitude) {
             latitude = pLatitude;
             longitude = pLongitude;
+            altitude = pAltitude;
         }
 
         /**
@@ -261,6 +276,24 @@ public class Route {
          */
         public void setLongitude(final double pLongitude) {
             this.longitude = pLongitude;
+        }
+
+        /**
+         * Gets altitude.
+         *
+         * @return the altitude
+         */
+        public double getAltitude() {
+            return altitude;
+        }
+
+        /**
+         * Sets altitude.
+         *
+         * @param pAltitude the p altitude
+         */
+        public void setAltitude(double pAltitude) {
+            altitude = pAltitude;
         }
     }
 
@@ -302,7 +335,7 @@ public class Route {
          */
         public Coordinate getCoordinates() {
             return new Coordinate(coordinates.getLatitude(),
-                    coordinates.getLongitude());
+                    coordinates.getLongitude(), coordinates.getAltitude());
         }
 
         /**
@@ -312,7 +345,43 @@ public class Route {
          */
         public void setCoordinates(final Coordinate pCoordinates) {
             this.coordinates = new Coordinate(pCoordinates.getLatitude(),
-                    pCoordinates.getLongitude());
+                    pCoordinates.getLongitude(), pCoordinates.getAltitude());
         }
+    }
+
+    /**
+     * Gets elevation gain.
+     *
+     * @return the elevation gain
+     */
+    public double getElevationGain() {
+        return elevationGain;
+    }
+
+    /**
+     * Sets elevation gain.
+     *
+     * @param pElevationGain the p elevation gain
+     */
+    public void setElevationGain(double pElevationGain) {
+        elevationGain = pElevationGain;
+    }
+
+    /**
+     * Gets elevation loss.
+     *
+     * @return the elevation loss
+     */
+    public double getElevationLoss() {
+        return elevationLoss;
+    }
+
+    /**
+     * Sets elevation loss.
+     *
+     * @param pElevationLoss the p elevation loss
+     */
+    public void setElevationLoss(double pElevationLoss) {
+        elevationLoss = pElevationLoss;
     }
 }
