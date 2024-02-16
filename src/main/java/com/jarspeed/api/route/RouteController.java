@@ -58,19 +58,26 @@ public class RouteController {
     /**
      * Handles the GET request to retrieve a specific route by its ID.
      *
-     * @param id The ID of the route.
+     * @param pRequest the p request
+     * @param id       The ID of the route.
      * @return the route associated with the given ID.
      */
     @GetMapping("/{id}")
-    public Route getRouteById(@PathVariable final String id) {
-        return routeService.getRouteById(id);
+    public ResponseEntity<?> getRouteById(final HttpServletRequest pRequest,
+                               @PathVariable final String id) {
+        String token = TokenUtils.extractToken(pRequest);
+        if (token == null || !tokenService.validateToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Unauthorized access");
+        }
+        return ResponseEntity.ok(routeService.getRouteById(id));
     }
 
     /**
      * Handles the POST request to create a new route.
      *
      * @param pRequest The request.
-     * @param pRoute The route object to be created.
+     * @param pRoute   The route object to be created.
      * @return the created route.
      */
     @PostMapping
@@ -88,23 +95,39 @@ public class RouteController {
     /**
      * Handles the PUT request to update an existing route.
      *
-     * @param id    The ID of the route to be updated.
-     * @param route The route object with updated information.
+     * @param pRequest the p request
+     * @param id       The ID of the route to be updated.
+     * @param route    The route object with updated information.
      * @return the updated route.
      */
     @PutMapping("/{id}")
-    public Route updateRoute(@PathVariable final String id,
+    public ResponseEntity<?> updateRoute(final HttpServletRequest pRequest,
+                             @PathVariable final String id,
                              @RequestBody final Route route) {
-        return routeService.updateRoute(id, route);
+        String token = TokenUtils.extractToken(pRequest);
+        if (token == null || !tokenService.validateToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Unauthorized access");
+        }
+        return ResponseEntity.ok(routeService.updateRoute(id, route));
     }
 
     /**
      * Handles the DELETE request to remove a route.
      *
-     * @param id The ID of the route to be deleted.
+     * @param pRequest the p request
+     * @param id       The ID of the route to be deleted.
+     * @return the response entity
      */
     @DeleteMapping("/{id}")
-    public void deleteRoute(@PathVariable final String id) {
+    public ResponseEntity<?> deleteRoute(final HttpServletRequest pRequest,
+                            @PathVariable final String id) {
+        String token = TokenUtils.extractToken(pRequest);
+        if (token == null || !tokenService.validateToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Unauthorized access");
+        }
         routeService.deleteRoute(id);
+        return ResponseEntity.ok().build();
     }
 }
