@@ -83,9 +83,13 @@ public class RouteControllerTest {
         String routeId = "route1";
         Route route = new Route();
         route.setId(routeId);
-        given(routeService.getRouteById(routeId)).willReturn(route);
+        given(tokenService.validateToken(any())).willReturn(true);
+        given(tokenService.getUserIdFromToken(any())).willReturn(4);
+        ResponseEntity<Route> responseEntity = ResponseEntity.ok(route);
+        given(routeService.getRouteById(routeId)).willReturn(responseEntity.getBody());
 
         mockMvc.perform(get("/routes/{id}", routeId)
+                        .header("Authorization", "Bearer valid_token")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(routeId)));
@@ -124,10 +128,13 @@ public class RouteControllerTest {
         String routeId = "route1";
         Route updatedRoute = new Route();
         updatedRoute.setId(routeId);
+        given(tokenService.validateToken(any())).willReturn(true);
+        given(tokenService.getUserIdFromToken(any())).willReturn(4);
         updatedRoute.setTitle("Updated Title");
         given(routeService.updateRoute(eq(routeId), any(Route.class))).willReturn(updatedRoute);
 
         mockMvc.perform(put("/routes/{id}", routeId)
+                        .header("Authorization", "Bearer valid_token")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(updatedRoute)))
                 .andExpect(status().isOk())
@@ -140,8 +147,11 @@ public class RouteControllerTest {
     public void deleteRouteTest() throws Exception {
         String routeId = "route1";
         doNothing().when(routeService).deleteRoute(routeId);
+        given(tokenService.validateToken(any())).willReturn(true);
+        given(tokenService.getUserIdFromToken(any())).willReturn(4);
 
-        mockMvc.perform(delete("/routes/{id}", routeId))
+        mockMvc.perform(delete("/routes/{id}", routeId)
+                        .header("Authorization", "Bearer valid_token"))
                 .andExpect(status().isOk());
 
         verify(routeService).deleteRoute(routeId);

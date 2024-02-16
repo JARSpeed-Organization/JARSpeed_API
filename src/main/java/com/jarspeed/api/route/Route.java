@@ -292,7 +292,7 @@ public class Route {
          *
          * @param pAltitude the p altitude
          */
-        public void setAltitude(double pAltitude) {
+        public void setAltitude(final double pAltitude) {
             altitude = pAltitude;
         }
     }
@@ -363,7 +363,7 @@ public class Route {
      *
      * @param pElevationGain the p elevation gain
      */
-    public void setElevationGain(double pElevationGain) {
+    public void setElevationGain(final double pElevationGain) {
         elevationGain = pElevationGain;
     }
 
@@ -381,7 +381,7 @@ public class Route {
      *
      * @param pElevationLoss the p elevation loss
      */
-    public void setElevationLoss(double pElevationLoss) {
+    public void setElevationLoss(final double pElevationLoss) {
         elevationLoss = pElevationLoss;
     }
 }
