@@ -1,0 +1,25 @@
+name: Deploy API on push to master
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_KEY }}
+
+    - name: Deploy to Server
+      run: |
+        ssh -o StrictHostKeyChecking=no -l ubuntu ${{ secrets.HOST }} << EOF
+          cd ${{ secrets.DEPLOY_PATH }}
+          ./deploy.sh
+        EOF
