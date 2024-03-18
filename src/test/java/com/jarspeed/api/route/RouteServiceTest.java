@@ -27,33 +27,32 @@ public class RouteServiceTest {
 
     @BeforeEach
     public void setup() {
-        Route.Coordinate coordinate = new Route.Coordinate();
-        coordinate.setLongitude(15);
-        coordinate.setLatitude(48);
+
+        CustomLineString customLineString = new CustomLineString();
+        customLineString.setCoordinates(List.of(List.of(15.0, 48.0)));
         existingRoute = new Route();
         existingRoute.setId("1");
         existingRoute.setTitle("Title");
         existingRoute.setDescription("Description");
         existingRoute.setStartDate(LocalDateTime.MAX);
         existingRoute.setEndDate(LocalDateTime.MAX);
-        existingRoute.setPath(List.of(coordinate));
+        existingRoute.setPath(customLineString);
         existingRoute.setPointsOfInterest(List.of());
     }
 
     @Test
     public void testUpdateRoute_Success() {
         // Arrange
+        CustomLineString updatedCustomLineString = new CustomLineString();
+        updatedCustomLineString.setCoordinates(List.of(List.of(11.0, 21.0)));
         Route updatedRouteDetails = new Route();
-        Route.Coordinate coordinate = new Route.Coordinate();
-        coordinate.setLongitude(15);
-        coordinate.setLatitude(48);
         updatedRouteDetails = new Route();
         updatedRouteDetails.setId("1");
         updatedRouteDetails.setTitle("Title");
         updatedRouteDetails.setDescription("Description");
         updatedRouteDetails.setStartDate(LocalDateTime.MIN);
         updatedRouteDetails.setEndDate(LocalDateTime.MIN);
-        updatedRouteDetails.setPath(List.of(coordinate));
+        updatedRouteDetails.setPath(updatedCustomLineString);
         updatedRouteDetails.setPointsOfInterest(List.of());
 
         when(routeRepository.findById("1")).thenReturn(Optional.of(existingRoute));
@@ -68,7 +67,8 @@ public class RouteServiceTest {
         assertEquals(updatedRouteDetails.getDescription(), updatedRoute.getDescription());
         assertEquals(updatedRouteDetails.getStartDate(), updatedRoute.getStartDate());
         assertEquals(updatedRouteDetails.getEndDate(), updatedRoute.getEndDate());
-        assertEquals(updatedRouteDetails.getPath(), updatedRoute.getPath());
+        assertEquals(updatedRouteDetails.getPath().getCoordinates().get(0),
+                updatedRoute.getPath().getCoordinates().get(0));
         assertEquals(updatedRouteDetails.getPointsOfInterest(), updatedRoute.getPointsOfInterest());
         verify(routeRepository, times(1)).findById("1");
         verify(routeRepository, times(1)).save(existingRoute);

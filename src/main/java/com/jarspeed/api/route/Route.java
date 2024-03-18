@@ -34,7 +34,7 @@ public class Route {
     /**
      * The Path.
      */
-    private List<Coordinate> path;
+    private CustomLineString path;
     /**
      * The Points of interest.
      */
@@ -135,8 +135,12 @@ public class Route {
      *
      * @return the path
      */
-    public List<Coordinate> getPath() {
-        return ObjectUtils.cloneListCoordinate(path);
+    public CustomLineString getPath() {
+        try {
+            return path != null ? path.clone() : null;
+        } catch (CloneNotSupportedException pE) {
+            return null;
+        }
     }
 
     /**
@@ -144,8 +148,12 @@ public class Route {
      *
      * @param pPath the path
      */
-    public void setPath(final List<Coordinate> pPath) {
-        this.path = ObjectUtils.cloneListCoordinate(pPath);
+    public void setPath(final CustomLineString pPath) {
+        try {
+            path = pPath != null ? pPath.clone() : null;
+        } catch (CloneNotSupportedException e) {
+            path = null;
+        }
     }
 
     /**
@@ -205,99 +213,6 @@ public class Route {
     }
 
     /**
-     * Inner class representing geographical coordinates.
-     */
-    public static class Coordinate {
-        /**
-         * The Latitude.
-         */
-        private double latitude;
-        /**
-         * The Longitude.
-         */
-        private double longitude;
-        /**
-         * The Altitude.
-         */
-        private double altitude;
-
-        /**
-         * Default constructor.
-         */
-        public Coordinate() {
-            // Empty constructor
-        }
-
-        /**
-         * Constructor with all attributes.
-         *
-         * @param pLatitude  Latitude
-         * @param pLongitude Longitude
-         * @param pAltitude  the p altitude
-         */
-        public Coordinate(final double pLatitude, final double pLongitude,
-                          final double pAltitude) {
-            latitude = pLatitude;
-            longitude = pLongitude;
-            altitude = pAltitude;
-        }
-
-        /**
-         * Gets latitude.
-         *
-         * @return the latitude
-         */
-        public double getLatitude() {
-            return latitude;
-        }
-
-        /**
-         * Sets latitude.
-         *
-         * @param pLatitude the latitude
-         */
-        public void setLatitude(final double pLatitude) {
-            this.latitude = pLatitude;
-        }
-
-        /**
-         * Gets longitude.
-         *
-         * @return the longitude
-         */
-        public double getLongitude() {
-            return longitude;
-        }
-
-        /**
-         * Sets longitude.
-         *
-         * @param pLongitude the longitude
-         */
-        public void setLongitude(final double pLongitude) {
-            this.longitude = pLongitude;
-        }
-
-        /**
-         * Gets altitude.
-         *
-         * @return the altitude
-         */
-        public double getAltitude() {
-            return altitude;
-        }
-
-        /**
-         * Sets altitude.
-         *
-         * @param pAltitude the p altitude
-         */
-        public void setAltitude(final double pAltitude) {
-            altitude = pAltitude;
-        }
-    }
-
-    /**
      * Inner class representing a point of interest along a route.
      */
     public static class PointOfInterest {
@@ -308,7 +223,7 @@ public class Route {
         /**
          * The Coordinates.
          */
-        private Coordinate coordinates;
+        private CustomPoint point;
 
         /**
          * Gets name.
@@ -333,19 +248,25 @@ public class Route {
          *
          * @return the coordinates
          */
-        public Coordinate getCoordinates() {
-            return new Coordinate(coordinates.getLatitude(),
-                    coordinates.getLongitude(), coordinates.getAltitude());
+        public CustomPoint getPoint() {
+            try {
+                return point != null ? point.clone() : null;
+            } catch (CloneNotSupportedException pE) {
+                return new CustomPoint(List.of(-1.0, -1.0));
+            }
         }
 
         /**
          * Sets coordinates.
          *
-         * @param pCoordinates the coordinates
+         * @param pPoint the coordinates
          */
-        public void setCoordinates(final Coordinate pCoordinates) {
-            this.coordinates = new Coordinate(pCoordinates.getLatitude(),
-                    pCoordinates.getLongitude(), pCoordinates.getAltitude());
+        public void setPoint(final CustomPoint pPoint) {
+            try {
+                point = pPoint != null ? pPoint.clone() : null;
+            } catch (CloneNotSupportedException pE) {
+                point = null;
+            }
         }
     }
 
