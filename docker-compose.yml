@@ -1,35 +1,46 @@
 version: '3.8'
 services:
+  api-jarspeed:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - mongodb
+    networks:
+      - my_network
+
   db:
     image: mysql:8.0
-    cap_add:
-      - SYS_NICE
-    restart: always
     environment:
       MYSQL_DATABASE: 'jarspeed'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'user'
       MYSQL_ROOT_PASSWORD: 'root'
     ports:
-      - '3306:3306'
+      - "3306:3306"
     volumes:
       - ./scripts:/docker-entrypoint-initdb.d
-      - db:/var/lib/mysql
+      - db_data:/var/lib/mysql
+    networks:
+      - my_network
 
   mongodb:
     image: mongo:latest
-    ports:
-      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongoadmin
       MONGO_INITDB_ROOT_PASSWORD: mongopassword
+    ports:
+      - "27017:27017"
     volumes:
       - mongodb_data:/data/db
-
-volumes:
-  db:
-    driver: local
-  mongodb_data:
+    networks:
+      - my_network
 
 networks:
-  jarspeed-network:
+  my_network:
+    driver: bridge
+
+volumes:
+  db_data:
+  mongodb_data:
