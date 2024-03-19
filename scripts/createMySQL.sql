@@ -101,6 +101,7 @@ ALTER TABLE `user`
 
 INSERT INTO gender (label) VALUES ('Femme');
 INSERT INTO gender (label) VALUES ('Homme');
+INSERT INTO gender (label) VALUES ('Aucun');
 
 
 

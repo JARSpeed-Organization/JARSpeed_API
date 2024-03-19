@@ -1,5 +1,7 @@
 package com.jarspeed.api.user;
 
+import com.jarspeed.api.gender.Gender;
+import com.jarspeed.api.gender.GenderRepository;
 import com.jarspeed.api.security.RefreshTokenService;
 import com.jarspeed.api.security.TokenService;
 import com.jarspeed.api.security.TokenUtils;
@@ -32,6 +34,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
+    @Autowired
+    private GenderRepository genderRepository;
 
     /**
      * Service to manage user-related operations.
@@ -160,6 +165,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Email already in use");
         }
+        Gender genDef = genderRepository.findGenderById(3);
 
         // Créer un nouvel utilisateur avec des valeurs par défaut pour
         // les champs non renseignés
@@ -169,9 +175,9 @@ public class UserController {
         newUser.setEmail(registrationRequest.getEmail());
         newUser.setPassword(hashPassword(registrationRequest.getPassword()));
         newUser.setBirthdate(null); // Valeur par défaut pour l'âge
-        newUser.setWeight(null); // Valeur par défaut pour le poids
-        newUser.setGender(null); // Vous pouvez également définir une valeur
-        // par défaut ou laisser null si autorisé
+        newUser.setWeight(70.0); // Valeur par défaut pour le poids
+        newUser.setGender(genDef); // Vous pouvez également définir une valeur
+                                // par défaut ou laisser null si autorisé
 
         // Enregistrer l'utilisateur dans la base de données
         userRepository.save(newUser);
