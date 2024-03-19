@@ -1,4 +1,4 @@
-name: Deploy API on push to master
+name: Deploy API on push to master test
 
 on:
   push:
