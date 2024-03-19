@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +39,25 @@ public class RouteServiceTest {
         existingRoute.setEndDate(LocalDateTime.MAX);
         existingRoute.setPath(customLineString);
         existingRoute.setPointsOfInterest(List.of());
+    }
+
+    @Test
+    public void testGetAllRoutesByUserId() {
+        // Given
+        String userId = "user123";
+        List<Route> expectedRoutes = new ArrayList<>();
+        expectedRoutes.add(new Route());
+        expectedRoutes.add(new Route());
+
+        // Mock repository behavior
+        when(routeRepository.findAllByUserId(userId)).thenReturn(expectedRoutes);
+
+        // When
+        List<Route> actualRoutes = routeService.getAllRoutesByUserId(userId);
+
+        // Then
+        assertEquals(expectedRoutes.size(), actualRoutes.size());
+        // Add more assertions as needed
     }
 
     @Test
