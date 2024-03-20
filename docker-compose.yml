@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   api-jarspeed:
     build: .
@@ -7,8 +8,13 @@ services:
     depends_on:
       - db
       - mongodb
+    environment:
+      MYSQL_URL: jdbc:mysql://db:3306/jarspeed?useSSL=false&allowPublicKeyRetrieval=true
+      MYSQL_USERNAME: user
+      MYSQL_PASSWORD: user
+      MONGODB_URI: mongodb://mongoadmin:mongopassword@mongodb:27017/jarspeed?authSource=admin
     networks:
-      - my_network
+      - jarspeed-network
 
   db:
     image: mysql:8.0
@@ -23,7 +29,7 @@ services:
       - ./scripts:/docker-entrypoint-initdb.d
       - db_data:/var/lib/mysql
     networks:
-      - my_network
+      - jarspeed-network
 
   mongodb:
     image: mongo:latest
@@ -35,12 +41,12 @@ services:
     volumes:
       - mongodb_data:/data/db
     networks:
-      - my_network
-
-networks:
-  my_network:
-    driver: bridge
+      - jarspeed-network
 
 volumes:
   db_data:
   mongodb_data:
+
+networks:
+  jarspeed-network:
+
