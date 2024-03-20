@@ -1,6 +1,7 @@
 package com.jarspeed.api.user;
 
 import com.jarspeed.api.gender.Gender;
+import com.jarspeed.api.gender.GenderRepository;
 import com.jarspeed.api.security.TokenService;
 import com.jarspeed.api.security.RefreshTokenService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +28,9 @@ import static org.mockito.MockitoAnnotations.openMocks;
 class UserControllerTest {
 
     @Mock
+    private GenderRepository genderRepository;
+
+    @Mock
     private UserRepository userRepository;
 
     @Mock
@@ -43,6 +47,8 @@ class UserControllerTest {
 
     private User existingUser;
     private User updatedUser;
+
+    private Gender testGender;
     @BeforeEach
     void setUp() {
         testUser = new User(1, "Test", "User", "test@example.com", new Date(), null, 60.0, "password");
@@ -53,6 +59,7 @@ class UserControllerTest {
         updatedUser = new User(1, "UpdatedLastName", "UpdatedFirstName",
                 "updated@example.com", new Date(), new Gender(2, "Femme"), 80.0,
                 "updatedPassword");
+        testGender = new Gender(0,"test");
     }
 
     @Test
@@ -169,7 +176,7 @@ class UserControllerTest {
     void registerUserSuccessfully() {
         when(userRepository.existsByEmail("test@example.com")).thenReturn(false);
         when(userRepository.save(any(User.class))).thenReturn(testUser);
-
+        when(genderRepository.findGenderById(any())).thenReturn(testGender);
         ResponseEntity<?> response = userController.registerUser(testRegistrationRequest);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
