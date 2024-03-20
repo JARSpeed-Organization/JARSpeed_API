@@ -1,37 +1,52 @@
+# Nom de la GitHub Action
 name: SonarCloud
+
+# Déclencheurs pour l'exécution de l'action
 on:
   push:
     branches:
-      - master
+      - master  # Exécute l'action lors d'un push sur la branche master.
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened]  # Exécute également l'action lorsqu'une pull request est ouverte, synchronisée, ou rouverte.
+
+# Définition des jobs à exécuter
 jobs:
   build:
-    name: Build and analyze
-    runs-on: ubuntu-latest
+    name: Build and analyze  # Nom du job pour référence dans l'UI de GitHub Actions
+    runs-on: ubuntu-latest  # Spécifie l'environnement d'exécution, ici la dernière version d'Ubuntu.
+
+    # Étapes du job
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0  # Désactive les clones peu profonds pour une analyse complète avec l'historique Git.
+
+      # Configuration de l'environnement Java, nécessaire pour les projets basés sur Java.
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: 17
-          distribution: 'zulu' # Alternative distribution options are available.
+          java-version: 17  # Spécifie la version de Java.
+          distribution: 'zulu'  # Choisit 'zulu' comme distribution de Java.
+
+      # Mise en cache des dépendances SonarCloud pour accélérer les analyses suivantes.
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
+          path: ~/.sonar/cache  # Chemin du dossier de cache.
+          key: ${{ runner.os }}-sonar  # Clé de cache basée sur le système d'exploitation.
+          restore-keys: ${{ runner.os }}-sonar  # Clé pour récupérer le cache si disponible.
+
+      # Mise en cache des dépendances Maven pour accélérer les builds Maven.
       - name: Cache Maven packages
         uses: actions/cache@v3
         with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          path: ~/.m2  # Chemin du dossier de cache pour Maven.
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}  # Clé de cache unique basée sur le contenu des fichiers pom.xml.
+          restore-keys: ${{ runner.os }}-m2  # Clé pour récupérer le cache si disponible.
+
+      # Étape de construction et d'analyse du projet avec Maven et SonarCloud.
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token GitHub pour permettre à SonarCloud d'accéder au projet.
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Token SonarCloud pour authentification.
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=JARSpeed-Organization_JARSpeed_API
