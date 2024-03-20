@@ -96,7 +96,6 @@ public class RouteController {
      * Handles the PUT request to update an existing route.
      *
      * @param pRequest the p request
-     * @param id       The ID of the route to be updated.
      * @param route    The route object with updated information.
      * @return the updated route.
      */
@@ -108,7 +107,8 @@ public class RouteController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Unauthorized access");
         }
-        return ResponseEntity.ok(routeService.updateRoute(route.getId(), route));
+        return ResponseEntity.ok(
+                routeService.updateRoute(route.getId(), route));
     }
 
     /**
