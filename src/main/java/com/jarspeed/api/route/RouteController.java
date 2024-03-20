@@ -64,7 +64,7 @@ public class RouteController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<?> getRouteById(final HttpServletRequest pRequest,
-                               @PathVariable final String id) {
+                                          @PathVariable final String id) {
         String token = TokenUtils.extractToken(pRequest);
         if (token == null || !tokenService.validateToken(token)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -82,7 +82,7 @@ public class RouteController {
      */
     @PostMapping
     public ResponseEntity<?> createRoute(final HttpServletRequest pRequest,
-                             @RequestBody final Route pRoute) {
+                                         @RequestBody final Route pRoute) {
         String token = TokenUtils.extractToken(pRequest);
         if (token == null || !tokenService.validateToken(token)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -100,16 +100,15 @@ public class RouteController {
      * @param route    The route object with updated information.
      * @return the updated route.
      */
-    @PutMapping("/{id}")
+    @PutMapping
     public ResponseEntity<?> updateRoute(final HttpServletRequest pRequest,
-                             @PathVariable final String id,
-                             @RequestBody final Route route) {
+                                         @RequestBody final Route route) {
         String token = TokenUtils.extractToken(pRequest);
         if (token == null || !tokenService.validateToken(token)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Unauthorized access");
         }
-        return ResponseEntity.ok(routeService.updateRoute(id, route));
+        return ResponseEntity.ok(routeService.updateRoute(route.getId(), route));
     }
 
     /**
@@ -121,7 +120,7 @@ public class RouteController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRoute(final HttpServletRequest pRequest,
-                            @PathVariable final String id) {
+                                         @PathVariable final String id) {
         String token = TokenUtils.extractToken(pRequest);
         if (token == null || !tokenService.validateToken(token)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

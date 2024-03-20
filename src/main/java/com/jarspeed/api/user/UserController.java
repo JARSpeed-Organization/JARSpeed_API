@@ -76,7 +76,7 @@ public class UserController {
             String refreshToken =
                     refreshTokenService.generateRefreshToken(user.getId());
             return ResponseEntity.ok(Map.of("token", token,
-                    "refreshToken", refreshToken));
+                    "refreshToken", refreshToken, "weight", user.getWeight()));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid credentials");
@@ -130,7 +130,7 @@ public class UserController {
      */
     @GetMapping("/findById")
     public ResponseEntity<?> findById(final @RequestParam Integer pId,
-                               final HttpServletRequest request) {
+                                      final HttpServletRequest request) {
         String token = TokenUtils.extractToken(request);
         if (token == null || !tokenService.validateToken(token)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -171,7 +171,7 @@ public class UserController {
         newUser.setBirthdate(null); // Valeur par défaut pour l'âge
         newUser.setWeight(null); // Valeur par défaut pour le poids
         newUser.setGender(null); // Vous pouvez également définir une valeur
-                                // par défaut ou laisser null si autorisé
+        // par défaut ou laisser null si autorisé
 
         // Enregistrer l'utilisateur dans la base de données
         userRepository.save(newUser);
