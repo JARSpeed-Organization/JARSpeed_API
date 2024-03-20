@@ -133,7 +133,7 @@ public class RouteControllerTest {
         updatedRoute.setTitle("Updated Title");
         given(routeService.updateRoute(eq(routeId), any(Route.class))).willReturn(updatedRoute);
 
-        mockMvc.perform(put("/routes/{id}", routeId)
+        mockMvc.perform(put("/routes", routeId)
                         .header("Authorization", "Bearer valid_token")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(updatedRoute)))
