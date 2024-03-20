@@ -1,21 +1,26 @@
+# Définit le nom de la GitHub Action
 name: Deploy API on push to master
 
+# Spécifie les événements qui déclenchent l'action
 on:
   push:
     branches:
-      - master
+      - master  # L'action se déclenche uniquement lors d'un push sur la branche master.
 
+# Définit les jobs à exécuter
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Le job s'exécute sur la dernière version disponible d'Ubuntu.
+
+    # Séquence d'étapes pour effectuer le déploiement
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2  # Clone le code source du repo dans l'environnement de build.
 
     - name: Setup SSH
-      uses: webfactory/ssh-agent@v0.5.3
+      uses: webfactory/ssh-agent@v0.5.3  # Configure l'agent SSH pour permettre les connexions SSH sans mot de passe.
       with:
-        ssh-private-key: ${{ secrets.SSH_KEY }}
+        ssh-private-key: ${{ secrets.SSH_KEY }}  # Utilise une clé SSH privée stockée en tant que secret GitHub.
 
     - name: Deploy to Server
       run: |
@@ -23,3 +28,10 @@ jobs:
           cd ${{ secrets.DEPLOY_PATH }}
           ./deploy.sh
         EOF
+      # Exécute le script de déploiement sur le serveur.
+      # -o StrictHostKeyChecking=no : désactive la vérification de la clé de l'hôte pour les connexions SSH,
+      # permettant une connexion sans interaction manuelle.
+      # -l ubuntu : spécifie le nom d'utilisateur pour la connexion SSH.
+      # ${{ secrets.HOST }} : utilise l'adresse du serveur stockée en tant que secret GitHub.
+      # ${{ secrets.DEPLOY_PATH }} : spécifie le chemin du répertoire de déploiement sur le serveur, également stocké en tant que secret.
+      # ./deploy.sh : exécute le script de déploiement qui doit être présent dans le répertoire de déploiement sur le serveur.
