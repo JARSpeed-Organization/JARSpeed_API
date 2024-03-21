@@ -6,7 +6,7 @@ sportifs à l’aide des fonctionnalités de localisation du téléphone.
 L’application permettra donc à l’utilisateur de démarrer l’enregistrement de son parcours et de le
 stopper afin qu’il puisse être envoyé vers une API pour être stocké en base de données. De plus, au
 cours du parcours, l’utilisateur pourra enregistrer des points d’intérêt découverts.
-L’application permettra de consulter des parcours déjà réalisés et de visualiser leur tracé.
+L’application permettra de consulter des parcours déjà réalisés et de visualiser leur tracé. 
 </p>
 
 ## Organisation et équipe
