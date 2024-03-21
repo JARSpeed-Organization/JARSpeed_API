@@ -35,6 +35,18 @@ import java.util.Map;
 @RequestMapping("/users")
 public class UserController {
 
+    /**
+     * The Default weight.
+     */
+    public static final double DEFAULT_WEIGHT = 70.0;
+    /**
+     * The Empty gender.
+     */
+    private static final int EMPTY_GENDER = 3;
+
+    /**
+     * The Gender repository.
+     */
     @Autowired
     private GenderRepository genderRepository;
 
@@ -165,7 +177,8 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Email already in use");
         }
-        Gender genDef = genderRepository.findGenderById(3);
+
+        Gender genDef = genderRepository.findGenderById(EMPTY_GENDER);
 
         // Créer un nouvel utilisateur avec des valeurs par défaut pour
         // les champs non renseignés
@@ -175,7 +188,7 @@ public class UserController {
         newUser.setEmail(registrationRequest.getEmail());
         newUser.setPassword(hashPassword(registrationRequest.getPassword()));
         newUser.setBirthdate(null); // Valeur par défaut pour l'âge
-        newUser.setWeight(70.0); // Valeur par défaut pour le poids
+        newUser.setWeight(DEFAULT_WEIGHT); // Valeur par défaut pour le poids
         newUser.setGender(genDef); // Vous pouvez également définir une valeur
                                 // par défaut ou laisser null si autorisé
 
