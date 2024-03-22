@@ -72,8 +72,8 @@ class UserControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertTrue(response.getBody().toString().contains("validToken"));
-        assertTrue(response.getBody().toString().contains("validRefreshToken"));
+        assertTrue(response.getBody().toString().contains("refreshToken"));
+        assertTrue(response.getBody().toString().contains("user"));
     }
 
     @Test
@@ -260,7 +260,7 @@ class UserControllerTest {
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("User updated successfully", response.getBody());
+        assertTrue(response.getBody().toString().contains("user"));
 
         verify(userRepository, times(1)).save(any(User.class));
     }

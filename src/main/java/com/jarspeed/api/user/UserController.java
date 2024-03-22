@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -92,8 +93,8 @@ public class UserController {
             userRepository.save(user); // Sauvegardez utilisateur avec le token
             String refreshToken =
                     refreshTokenService.generateRefreshToken(user.getId());
-            return ResponseEntity.ok(Map.of("token", token,
-                    "refreshToken", refreshToken, "weight", user.getWeight()));
+            return ResponseEntity.ok(Map.of("refreshToken", refreshToken,
+                    "user", user));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid credentials");
@@ -187,7 +188,7 @@ public class UserController {
         newUser.setFirstname(registrationRequest.getFirstname());
         newUser.setEmail(registrationRequest.getEmail());
         newUser.setPassword(hashPassword(registrationRequest.getPassword()));
-        newUser.setBirthdate(null); // Valeur par défaut pour l'âge
+        newUser.setBirthdate(new Date()); // Valeur par défaut pour l'âge
         newUser.setWeight(DEFAULT_WEIGHT); // Valeur par défaut pour le poids
         newUser.setGender(genDef); // Vous pouvez également définir une valeur
                                 // par défaut ou laisser null si autorisé
@@ -239,9 +240,9 @@ public class UserController {
             User user = userRepository.findUserById(userId);
             if (user != null) {
                 user.updateUserInfos(updateRequest);
-                userRepository.save(user);
+                User userUpdated = userRepository.save(user);
                 LOGGER.info("User with ID: {} updated successfully", userId);
-                return ResponseEntity.ok("User updated successfully");
+                return ResponseEntity.ok(userUpdated);
             } else {
                 LOGGER.error("User with ID: {} not found", userId);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
