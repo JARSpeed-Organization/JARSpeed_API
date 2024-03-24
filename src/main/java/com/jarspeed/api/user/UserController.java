@@ -176,7 +176,7 @@ public class UserController {
         // Vérifier si l'email existe déjà
         if (userRepository.existsByEmail(registrationRequest.getEmail())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Email already in use");
+                    .body("Email déjà associé à un compte");
         }
 
         Gender genDef = genderRepository.findGenderById(EMPTY_GENDER);

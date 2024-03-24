@@ -190,7 +190,7 @@ class UserControllerTest {
         ResponseEntity<?> response = userController.registerUser(new UserRegistrationRequest("Existing", "User", "existing@example.com", "password"));
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("Email already in use", response.getBody());
+        assertEquals("Email déjà associé à un compte", response.getBody());
     }
 
     @Test
