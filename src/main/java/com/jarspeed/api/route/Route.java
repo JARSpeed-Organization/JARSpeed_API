@@ -56,7 +56,75 @@ public class Route {
      */
     private double elevationLoss;
 
-    // Getters and Setters
+    /**
+     * The Time.
+     */
+    private String time;
+
+    /**
+     * The Speed.
+     */
+    private String speed;
+
+    /**
+     * The Distance.
+     */
+    private String distance;
+
+    /**
+     * Sets time.
+     *
+     * @param pTime the p time
+     */
+    public void setTime(final String pTime) {
+        time = pTime;
+    }
+
+    /**
+     * Sets speed.
+     *
+     * @param pSpeed the p speed
+     */
+    public void setSpeed(final String pSpeed) {
+        speed = pSpeed;
+    }
+
+    /**
+     * Sets distance.
+     *
+     * @param pDistance the p distance
+     */
+    public void setDistance(final String pDistance) {
+        distance = pDistance;
+    }
+
+    /**
+     * Gets time.
+     *
+     * @return the time
+     */
+    public String getTime() {
+        return time;
+    }
+
+    /**
+     * Gets speed.
+     *
+     * @return the speed
+     */
+    public String getSpeed() {
+        return speed;
+    }
+
+    /**
+     * Gets distance.
+     *
+     * @return the distance
+     */
+    public String getDistance() {
+        return distance;
+    }
+// Getters and Setters
 
     /**
      * Gets id.
